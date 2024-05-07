@@ -28,8 +28,8 @@
     # qos_overrides./parameter_events.publisher.durability: volatile
     # qos_overrides./parameter_events.publisher.history: keep_last
     qos_overrides./parameter_events.publisher.reliability: best_effort
-    scanTopic1: /sick_tim_L/sick_tim_5xx/scan
-    scanTopic2: /sick_tim_R/sick_tim_5xx/scan
+    scanTopic1: /lidar_1/scan
+    scanTopic2: /lidar_2/scan
     show1: true
     show2: true
     use_sim_time: false

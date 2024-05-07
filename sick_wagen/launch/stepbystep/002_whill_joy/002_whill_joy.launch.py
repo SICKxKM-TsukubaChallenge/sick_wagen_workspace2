@@ -12,15 +12,19 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
-    pkg_dir = get_package_share_directory("ros2_whill")
+    pkg_dir = get_package_share_directory("sick_wagen")
+    rviz_config_dir = os.path.join(
+        get_package_share_directory('sick_wagen'),
+        'config/rviz/stepbystep',
+        '002_whill_joy.rviz'
+    )
     list = [
         Node(
             package="robot_state_publisher",
             executable="robot_state_publisher",
             namespace="",
-            # parameters=[{"robot_description" : os.path.join(pkg_dir, "urdf", "modelc.urdf")}],
             remappings=[("/joint_states", "/whill/states/joint_state")],
-            arguments=[os.path.join(pkg_dir, "urdf", "modelc.urdf")]
+            arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
         ),
         Node(
             package="ros2_whill",
@@ -28,7 +32,7 @@ def generate_launch_description():
             namespace="whill",
             output="screen",
             respawn=True,
-            parameters=[os.path.join(pkg_dir, "params", "whill_param.yaml")],
+            parameters=[os.path.join(pkg_dir, "config/whill", "whill_param.yaml")],
         ),
         Node(
             name="joy_node",
@@ -38,9 +42,12 @@ def generate_launch_description():
             remappings=[("/joy", "/whill/controller/joy")],
         ),
         Node(
-            package="rviz2", executable="rviz2",
-            arguments=[os.path.join("/home/sick/ros2_ws/sick_tsukuba_ws/sick_wagen/launch/stepbystep/002_whill_joy", "002_whill_joy.rviz")]
-        )
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            arguments=['-d', rviz_config_dir],
+            output='screen'
+        ),
     ]
 
     return LaunchDescription(list)

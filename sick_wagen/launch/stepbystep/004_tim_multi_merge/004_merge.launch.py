@@ -17,7 +17,12 @@ def generate_launch_description():
         'laser_scan_merger',
         'params.yaml'
     )
-    print(config)
+    pkg_dir = get_package_share_directory("sick_wagen")
+    # rviz_config_dir = os.path.join(
+    # get_package_share_directory('sick_wagen'),
+    # 'config/rviz/stepbystep',
+    # '005.rviz'
+    # )
     
     # ↓Absolute path
     # config = "/home/sick/ros2_ws/sick_tsukuba_ws/sick_wagen/config/laser_scan_merger/params.yaml"
@@ -30,6 +35,14 @@ def generate_launch_description():
     # print("----------------------------------------")
     
     list = [
+        Node(
+            package="robot_state_publisher",
+            executable="robot_state_publisher",
+            namespace="",
+            # parameters=[{"robot_description" : os.path.join(pkg_dir, "urdf", "modelc.urdf")}],
+            remappings=[("/joint_states", "/whill/states/joint_state")],
+            arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
+        ),
         Node(
             package = 'sick_scan_xd',
             executable = 'sick_generic_caller',
@@ -45,7 +58,7 @@ def generate_launch_description():
                 {"intensity":True},
                 {"hostname":"TIM_RIGHT_IP"},
                 {"cloud_topic":"tim_cloud_R"},
-                {"frame_id":"tim_link_R"},
+                {"frame_id":"tim_link_L"},
                 {"port":"2112"},
                 {"timelimit":5},
                 {"sw_pll_only_publish":True},
@@ -68,7 +81,7 @@ def generate_launch_description():
                 {"intensity":True},
                 {"hostname":"TIM_LEFT_IP"},
                 {"cloud_topic":"tim_cloud_L"},
-                {"frame_id":"tim_link_L"},
+                {"frame_id":"tim_link_R"},
                 {"port":"2112"},
                 {"timelimit":5},
                 {"sw_pll_only_publish":True},
@@ -77,23 +90,23 @@ def generate_launch_description():
             remappings = [('/sick_tim_5xx/scan','tim_scan_L')]
         ),
         
-        Node(
-            package = 'tf2_ros',
-            executable = 'static_transform_publisher',
-            output = 'screen',
-            arguments = [
-                "0", "1", "0", "0", "0", "0", "world", "tim_link_L",
-            ]
-        ),
+        # Node(
+        #     package = 'tf2_ros',
+        #     executable = 'static_transform_publisher',
+        #     output = 'screen',
+        #     arguments = [
+        #         "0", "1", "0", "0", "0", "0", "world", "tim_link_L",
+        #     ]
+        # ),
         
-        Node(
-            package = 'tf2_ros',
-            executable = 'static_transform_publisher',
-            output = 'screen',
-            arguments = [
-                "0", "-1", "0", "0", "0", "0", "world", "tim_link_R",
-            ]
-        ),
+        # Node(
+        #     package = 'tf2_ros',
+        #     executable = 'static_transform_publisher',
+        #     output = 'screen',
+        #     arguments = [
+        #         "0", "-1", "0", "0", "0", "0", "world", "tim_link_R",
+        #     ]
+        # ),
         
         launch_ros.actions.Node(
             package = "ros2_laser_scan_merger",
@@ -102,7 +115,7 @@ def generate_launch_description():
             output='screen',
             respawn=True,
             respawn_delay=2,
-            # remappings = [('/lidar_1/scan','/sick_tim_L/sick_tim_5xx/scan'), ('/lidar_2/scan','/sick_tim_R/sick_tim_5xx/scan')],
+            remappings = [('/lidar_1/scan','/sick_tim_L/sick_tim_5xx/scan'), ('/lidar_2/scan','/sick_tim_R/sick_tim_5xx/scan')],
         ),
         
         Node(
@@ -117,8 +130,8 @@ def generate_launch_description():
         
         # Node(
         #     package="rviz2", executable="rviz2",
-        #     arguments=[os.path.join("~/ros2_ws/sick_tsukuba_ws/sick_wagen/launch/stepbystep/002_whill_joy", "002_whill_joy.rviz")]
-        # )
+        #     arguments=[os.path.join(rviz_config_dir)]
+        # ),
         
     ]
 

@@ -12,7 +12,12 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
-    pkg_dir = get_package_share_directory("ros2_whill")
+    pkg_dir = get_package_share_directory("sick_wagen")
+    rviz_config_dir = os.path.join(
+        get_package_share_directory('sick_wagen'),
+        'config/rviz/stepbystep',
+        '005.rviz'
+    )
     list = [
         Node(
             package="robot_state_publisher",
@@ -20,7 +25,7 @@ def generate_launch_description():
             namespace="",
             # parameters=[{"robot_description" : os.path.join(pkg_dir, "urdf", "modelc.urdf")}],
             remappings=[("/joint_states", "/whill/states/joint_state")],
-            arguments=[os.path.join(pkg_dir, "urdf", "modelc.urdf")]
+            arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
         ),
         Node(
             package="ros2_whill",
@@ -28,7 +33,7 @@ def generate_launch_description():
             namespace="whill",
             output="screen",
             respawn=True,
-            parameters=[os.path.join(pkg_dir, "params", "whill_param.yaml")],
+            parameters=[os.path.join(pkg_dir, "config/whill", "whill_param.yaml")],
         ),
         Node(
             name="joy_node",
@@ -85,32 +90,13 @@ def generate_launch_description():
             remappings = [('/sick_tim_5xx/scan','tim_scan_L')]
         ),
         Node(
-        package = 'tf2_ros',
-        executable = 'static_transform_publisher',
-        output = 'screen',
-        arguments = [
-            "0", "0", "0", "0", "0", "0", "world", "tim_link_L",
-            ]
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', rviz_config_dir],
+        output='screen'
         ),
-        Node(
-            package = 'tf2_ros',
-            executable = 'static_transform_publisher',
-            output = 'screen',
-            arguments = [
-                "0", "0", "0", "0", "0", "0", "world", "tim_link_R",
-            ]
-        ),
-        
-        
-        
-        
-        
-        
-        # Node(
-        #     package="rviz2", executable="rviz2",
-        #     arguments=[os.path.join("~/ros2_ws/sick_tsukuba_ws/sick_wagen/launch/stepbystep/002_whill_joy", "002_whill_joy.rviz")]
-        # )
-        
+
     ]
 
     return LaunchDescription(list)
