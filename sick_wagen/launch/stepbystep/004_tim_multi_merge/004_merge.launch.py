@@ -18,11 +18,11 @@ def generate_launch_description():
         'params.yaml'
     )
     pkg_dir = get_package_share_directory("sick_wagen")
-    # rviz_config_dir = os.path.join(
-    # get_package_share_directory('sick_wagen'),
-    # 'config/rviz/stepbystep',
-    # '005.rviz'
-    # )
+    rviz_config_dir = os.path.join(
+        get_package_share_directory('sick_wagen'),
+        'config/rviz/stepbystep',
+        '004.rviz'
+    )
     
     # ↓Absolute path
     # config = "/home/sick/ros2_ws/sick_tsukuba_ws/sick_wagen/config/laser_scan_merger/params.yaml"
@@ -39,9 +39,16 @@ def generate_launch_description():
             package="robot_state_publisher",
             executable="robot_state_publisher",
             namespace="",
-            # parameters=[{"robot_description" : os.path.join(pkg_dir, "urdf", "modelc.urdf")}],
             remappings=[("/joint_states", "/whill/states/joint_state")],
             arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
+        ),
+        Node(
+            package="ros2_whill",
+            executable="ros2_whill",
+            namespace="whill",
+            output="screen",
+            respawn=True,
+            parameters=[os.path.join(pkg_dir, "config/whill", "whill_param.yaml")],
         ),
         Node(
             package = 'sick_scan_xd',
@@ -90,24 +97,6 @@ def generate_launch_description():
             remappings = [('/sick_tim_5xx/scan','tim_scan_L')]
         ),
         
-        # Node(
-        #     package = 'tf2_ros',
-        #     executable = 'static_transform_publisher',
-        #     output = 'screen',
-        #     arguments = [
-        #         "0", "1", "0", "0", "0", "0", "world", "tim_link_L",
-        #     ]
-        # ),
-        
-        # Node(
-        #     package = 'tf2_ros',
-        #     executable = 'static_transform_publisher',
-        #     output = 'screen',
-        #     arguments = [
-        #         "0", "-1", "0", "0", "0", "0", "world", "tim_link_R",
-        #     ]
-        # ),
-        
         launch_ros.actions.Node(
             package = "ros2_laser_scan_merger",
             executable='ros2_laser_scan_merger',
@@ -124,14 +113,13 @@ def generate_launch_description():
             executable='pointcloud_to_laserscan_node',
             parameters=[config]
         ),
-        
-        
-        
-        
-        # Node(
-        #     package="rviz2", executable="rviz2",
-        #     arguments=[os.path.join(rviz_config_dir)]
-        # ),
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            arguments=['-d', rviz_config_dir],
+            output='screen'
+        ),
         
     ]
 
