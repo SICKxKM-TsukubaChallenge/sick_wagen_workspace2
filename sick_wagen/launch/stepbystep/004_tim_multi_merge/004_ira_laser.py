@@ -113,6 +113,7 @@ def generate_launch_description():
             executable='pointcloud_to_laserscan_node',
             parameters=[config]
         ),
+        
         Node(
             package='rviz2',
             executable='rviz2',

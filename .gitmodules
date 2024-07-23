@@ -10,3 +10,13 @@
 [submodule "ros2_whill_interfaces"]
 	path = ros2_whill_interfaces
 	url = git@github.com:SICKxKM-TsukubaChallenge/ros2_whill_interfaces.git
+[submodule "slam_toolbox"]
+	path = slam_toolbox
+	url = git@github.com:SICKxKM-TsukubaChallenge/slam_toolbox.git
+[submodule "witmotion_IMU_ROS"]
+	path = witmotion_IMU_ROS
+	url = git@github.com:SICKxKM-TsukubaChallenge/witmotion_IMU_ROS.git
+	branch = ros2
+[submodule "ros2_v4l2_camera"]
+	path = ros2_v4l2_camera
+	url = git@github.com:SICKxKM-TsukubaChallenge/ros2_v4l2_camera.git
