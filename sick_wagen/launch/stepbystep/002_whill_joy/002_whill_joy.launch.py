@@ -26,28 +26,28 @@ def generate_launch_description():
             remappings=[("/joint_states", "/whill/states/joint_state")],
             arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
         ),
-        # Node(
-        #     package="ros2_whill",
-        #     executable="ros2_whill",
-        #     namespace="whill",
-        #     output="screen",
-        #     respawn=True,
-        #     parameters=[os.path.join(pkg_dir, "config/whill", "whill_param.yaml")],
-        # ),
-        # Node(
-        #     name="joy_node",
-        #     package="joy",
-        #     executable="joy_node",
-        #     output="screen",
-        #     remappings=[("/joy", "/whill/controller/joy")],
-        # ),
-        # Node(
-        #     package='rviz2',
-        #     executable='rviz2',
-        #     name='rviz2',
-        #     arguments=['-d', rviz_config_dir],
-        #     output='screen'
-        # ),
+        Node(
+            package="ros2_whill",
+            executable="ros2_whill",
+            namespace="whill",
+            output="screen",
+            respawn=True,
+            parameters=[os.path.join(pkg_dir, "config/whill", "whill_param.yaml")],
+        ),
+        Node(
+            name="joy_node",
+            package="joy",
+            executable="joy_node",
+            output="screen",
+            remappings=[("/joy", "/whill/controller/joy")],
+        ),
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            arguments=['-d', rviz_config_dir],
+            output='screen'
+        ),
     ]
 
     return LaunchDescription(list)
