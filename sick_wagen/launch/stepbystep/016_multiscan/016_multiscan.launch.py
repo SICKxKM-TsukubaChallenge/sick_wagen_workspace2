@@ -14,7 +14,7 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     LAPTOP_IP = "192.168.0.16"
-    MULTISCAN_IP = "192.168.0.1"
+    MULTISCAN_IP = "192.168.0.4"
     
     rviz_config_dir = os.path.join(
     get_package_share_directory('sick_wagen'),
