@@ -29,3 +29,10 @@
 [submodule "livox_ros_driver2"]
 	path = livox_ros_driver2
 	url = git@github.com:SICKxKM-TsukubaChallenge/livox_ros_driver2.git
+[submodule "ublox"]
+	path = ublox
+	url = git@github.com:KumarRobotics/ublox.git
+	branch = ros2
+[submodule "lidarslam_ros2/Thirdparty/ndt_omp_ros2"]
+	path = lidarslam_ros2/Thirdparty/ndt_omp_ros2
+	url = git@github.com:rsasaki0109/ndt_omp_ros2.git
