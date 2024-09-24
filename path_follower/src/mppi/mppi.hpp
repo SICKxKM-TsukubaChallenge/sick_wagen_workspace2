@@ -13,6 +13,12 @@ class MPPIController {
                  uint8_t control_dimension, double map_resolution,
                  MatrixXf transition_matrix);
   ~MPPIController();
+  struct singleSample {
+    std::vector<MatrixXf> v_;  // input sample
+    std::vector<MatrixXf> x_;  // predicted state
+  };
+
+  std::vector<singleSample> get_samples() { return samples_; };
 
  private:
   // Parameters
@@ -33,10 +39,6 @@ class MPPIController {
   // Variables
   MatrixXf current_pose_;    // current pose
   std::vector<MatrixXf> u_;  // input
-  struct singleSample {
-    std::vector<MatrixXf> v_;  // input sample
-    std::vector<MatrixXf> x_;  // predicted state
-  };
   std::vector<singleSample> samples_;
   std::vector<MatrixXf> prev_u_;  // previous control input list
   uint8_t input_number;
