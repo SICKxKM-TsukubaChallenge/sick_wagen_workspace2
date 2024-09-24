@@ -31,8 +31,14 @@ MPPIController::MPPIController(uint32_t num_samples, uint32_t num_timesteps,
   }
   input_number = cov_matrix_.rows();
   current_pose_.resize(control_dimension_, 1);
-  u_.resize(input_number, num_timesteps_);
-
+  u_.resize(num_timesteps_);
+  for (uint32_t i = 0; i < num_timesteps_; i++) {
+    u_[i].resize(input_number, 1);
+  }
+  prev_u_.resize(num_timesteps_);
+  for (uint32_t i = 0; i < num_timesteps_; i++) {
+    prev_u_[i].resize(input_number, 1);
+  }
   samples_.resize(num_samples_);
   for (uint32_t i = 0; i < num_samples_; i++) {
     samples_[i].v_.resize(num_timesteps_);
@@ -43,14 +49,21 @@ MPPIController::MPPIController(uint32_t num_samples, uint32_t num_timesteps,
     }
   }
 
-  gaussian_sampling();
-  // show input sample but only num1
+  // initializing input
+  for (uint32_t i = 0; i < num_timesteps_; i++) {
+    for (uint8_t j = 0; j < input_number; j++) {
+      prev_u_[i](j, 0) = 0.0;
+    }
+  }
+
+  gaussian_sampling(prev_u_);
+  calc_predicted_state();
+
+  // show x samples
   for (uint32_t i = 0; i < num_samples_; i++) {
     for (uint32_t j = 0; j < num_timesteps_; j++) {
-      for (uint8_t k = 0; k < input_number; k++) {
-        std::cout << samples_[i].v_[k](j) << " ";
-      }
-      std::cout << std::endl;
+      RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "x[%d][%d]: %f, %f", i, j,
+                  samples_[i].x_[j](0, 0), samples_[i].x_[j](1, 0));
     }
   }
 }
@@ -58,7 +71,7 @@ MPPIController::MPPIController(uint32_t num_samples, uint32_t num_timesteps,
 MPPIController::~MPPIController() {}
 
 // WIP: Only using diagonal elements of covariance matrix
-void MPPIController::gaussian_sampling() {
+void MPPIController::gaussian_sampling(const std::vector<MatrixXf>& u) {
   std::random_device rd;
   std::mt19937 gen(rd());
 
@@ -66,8 +79,7 @@ void MPPIController::gaussian_sampling() {
   for (uint32_t i = 0; i < num_samples_; i++) {
     for (uint32_t j = 0; j < num_timesteps_; j++) {
       for (uint8_t k = 0; k < input_number; k++) {
-        std::normal_distribution<double> dist(prev_u_[j](k, 0),
-                                              cov_matrix_(k, k));
+        std::normal_distribution<double> dist(u[j](k, 0), cov_matrix_(k, k));
         samples_[i].v_[j](k, 0) = dist(gen);
         if (samples_[i].v_[j](k, 0) < u_min_[k]) {
           samples_[i].v_[j](k, 0) = u_min_[k];
@@ -82,11 +94,12 @@ void MPPIController::gaussian_sampling() {
 void MPPIController::calc_predicted_state() {
   for (uint32_t i = 0; i < num_samples_; i++) {
     for (uint32_t j = 0; j < num_timesteps_; j++) {
-      //   if (j == 0) {
-      //     x_[i][0] = transition_matrix_ * current_pose_;
-      //   } else {
-      //     x_[i][j] = transition_matrix_ * x_[i][j - 1] + v_[i].
-      //   }
+      if (j == 0) {
+        samples_[i].x_[j] = current_pose_;
+      } else {
+        samples_[i].x_[j] = transition_matrix_ * samples_[i].v_[j - 1] * dt_ +
+                            samples_[i].x_[j - 1];
+      }
     }
   }
 }

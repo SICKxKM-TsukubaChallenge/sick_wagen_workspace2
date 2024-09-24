@@ -22,26 +22,26 @@ class MPPIController {
   const std::vector<double> u_min_;
   const std::vector<double> u_max_;
   const double lambda_;
-  const double dt_;                     // seconds
-  const uint16_t map_width_;            // pixels
-  const uint16_t map_height_;           // pixels
+  const double dt_;                      // seconds
+  const uint16_t map_width_;             // pixels
+  const uint16_t map_height_;            // pixels
   const uint8_t control_dimension_ = 2;  // x and y
-  const double map_resolution_;         // meters per pixel
+  const double map_resolution_;          // meters per pixel
   const MatrixXf transition_matrix_ =
       MatrixXf::Identity(control_dimension_, control_dimension_);
 
   // Variables
-  MatrixXf current_pose_;  // current pose
-  MatrixXf u_;             // input
-  struct SingleSample {
+  MatrixXf current_pose_;    // current pose
+  std::vector<MatrixXf> u_;  // input
+  struct singleSample {
     std::vector<MatrixXf> v_;  // input sample
     std::vector<MatrixXf> x_;  // predicted state
   };
-  std::vector<SingleSample> samples_;
+  std::vector<singleSample> samples_;
   std::vector<MatrixXf> prev_u_;  // previous control input list
   uint8_t input_number;
 
   // Functions
-  void gaussian_sampling();
+  void gaussian_sampling(const std::vector<MatrixXf>& u);
   void calc_predicted_state();
 };
