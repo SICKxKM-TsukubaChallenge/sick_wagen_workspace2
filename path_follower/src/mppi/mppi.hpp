@@ -4,14 +4,31 @@
 
 using namespace Eigen;
 
+/**
+ * @brief MPPIController class
+ * @details MPPIController class for path following
+ * @param num_samples Number of samples
+ * @param num_timesteps Number of timesteps
+ * @param cov_matrix Covariance matrix
+ * @param u_min Minimum control input vector
+ * @param u_max Maximum control input vector
+ * @param lambda Lambda
+ * @param dt Time step in seconds
+ * @param map_width Map width in pixels
+ * @param map_height Map height in pixels
+ * @param control_dimension Control dimension
+ * @param input_dimension Input dimension
+ * @param map_resolution Map resolution in meters per pixel
+ * @param transition_matrix Transition matrix
+ */
 class MPPIController {
  public:
   MPPIController(uint32_t num_samples, uint32_t num_timesteps,
                  MatrixXf cov_matrix, std::vector<double> u_min,
                  std::vector<double> u_max, double lambda, double dt,
                  uint16_t map_width, uint16_t map_height,
-                 uint8_t control_dimension, double map_resolution,
-                 MatrixXf transition_matrix);
+                 uint8_t control_dimension, uint8_t input_dimension,
+                 double map_resolution);
   ~MPPIController();
   struct singleSample {
     std::vector<MatrixXf> v_;  // input sample
@@ -28,13 +45,14 @@ class MPPIController {
   const std::vector<double> u_min_;
   const std::vector<double> u_max_;
   const double lambda_;
-  const double dt_;                      // seconds
-  const uint16_t map_width_;             // pixels
-  const uint16_t map_height_;            // pixels
-  const uint8_t control_dimension_ = 2;  // x and y
-  const double map_resolution_;          // meters per pixel
-  const MatrixXf transition_matrix_ =
-      MatrixXf::Identity(control_dimension_, control_dimension_);
+  const double dt_;                    // seconds
+  const uint16_t map_width_;           // pixels
+  const uint16_t map_height_;          // pixels
+  const uint8_t pose_dimension_ = 3;   // x ,y and theta
+  const uint8_t input_dimension_ = 2;  // linear and angular velocity
+  // for this above two parameters, actually we did not need them. We can get it
+  // from the matrix size, but to prevent any error, we define them.
+  const double map_resolution_;  // meters per pixel
 
   // Variables
   MatrixXf current_pose_;    // current pose
@@ -42,8 +60,11 @@ class MPPIController {
   std::vector<singleSample> samples_;
   std::vector<MatrixXf> prev_u_;  // previous control input list
   uint8_t input_number;
+  std::vector<double> cost_map_;
 
   // Functions
   void gaussian_sampling(const std::vector<MatrixXf>& u);
   void calc_predicted_state();
+  MatrixXf diff_robot_transition_matrix(const MatrixXf& x);
+  double calc_cost(const singleSample& sample);
 };

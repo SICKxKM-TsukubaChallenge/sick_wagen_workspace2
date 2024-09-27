@@ -1,3 +1,4 @@
+#include <cmath>
 #include <geometry_msgs/msg/twist.hpp>
 #include <nav_msgs/msg/occupancy_grid.hpp>
 #include <nav_msgs/msg/path.hpp>
@@ -22,10 +23,22 @@ class PathFollowerNode : public rclcpp::Node {
       predicted_path_pub_;
   rclcpp::TimerBase::SharedPtr timer_;
 
-  MPPIController mppi_{100,        10,           MatrixXf::Identity(2, 2),
-                       {0.0, 0.0}, {10.0, 10.0}, 1.0,
-                       1,          100,          100,
-                       2,          0.1,          MatrixXf::Identity(2, 2)};
+  MPPIController mppi_{
+      100,  // num_samples
+      100,   // num_timesteps
+      (MatrixXf(2, 2) << 0.25, 0, 0, pow(M_PI_4 / 2, 2))
+          .finished(),     // cov_matrix
+      {0.0, -M_PI_4 / 4},  // u_min
+      {1.0, M_PI_4 / 4},   // u_max
+      1.0,                 // lambda
+      0.1,                 // dt
+      100,                 // map_width
+      100,                 // map_height
+      3,                   // control_dimension
+      2,                   // input_dimension
+      0.1                  // map_resolution
+  };
+
   void map_callback(const nav_msgs::msg::OccupancyGrid::SharedPtr msg) {
     newest_map_ = *msg;
   }

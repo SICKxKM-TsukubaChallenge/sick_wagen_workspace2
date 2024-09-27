@@ -35,7 +35,7 @@ void PathFollowerNode::test() {
     markers.markers[i].id = i;
     markers.markers[i].type = visualization_msgs::msg::Marker::LINE_STRIP;
     markers.markers[i].action = visualization_msgs::msg::Marker::ADD;
-    markers.markers[i].scale.x = 0.05;
+    markers.markers[i].scale.x = 0.01;
     markers.markers[i].color.r = 0.0;
     markers.markers[i].color.g = 1.0;
     markers.markers[i].color.b = 0.0;
