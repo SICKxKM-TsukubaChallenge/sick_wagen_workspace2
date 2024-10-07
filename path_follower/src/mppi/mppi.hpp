@@ -30,6 +30,7 @@ class MPPIController {
                  uint8_t control_dimension, uint8_t input_dimension,
                  double map_resolution);
   ~MPPIController();
+
   struct singleSample {
     std::vector<MatrixXf> v_;  // input sample
     std::vector<MatrixXf> x_;  // predicted state
@@ -45,9 +46,10 @@ class MPPIController {
   const std::vector<double> u_min_;
   const std::vector<double> u_max_;
   const double lambda_;
-  const double dt_;                    // seconds
-  const uint16_t map_width_;           // pixels
-  const uint16_t map_height_;          // pixels
+  const double dt_;            // seconds
+  const uint16_t map_width_;   // pixels
+  const uint16_t map_height_;  // pixels
+  // robot position is always at the center of the map
   const uint8_t pose_dimension_ = 3;   // x ,y and theta
   const uint8_t input_dimension_ = 2;  // linear and angular velocity
   // for this above two parameters, actually we did not need them. We can get it
@@ -60,11 +62,18 @@ class MPPIController {
   std::vector<singleSample> samples_;
   std::vector<MatrixXf> prev_u_;  // previous control input list
   uint8_t input_number;
-  std::vector<double> cost_map_;
+  std::vector<double> robot_center_cost_map_;
 
   // Functions
   void gaussian_sampling(const std::vector<MatrixXf>& u);
   void calc_predicted_state();
   MatrixXf diff_robot_transition_matrix(const MatrixXf& x);
   double calc_cost(const singleSample& sample);
+
+  // Getter and setter
+  void set_current_pose(const MatrixXf& current_pose) {
+    current_pose_ = current_pose;
+  }
+  MatrixXf get_current_pose() { return current_pose_; };
+  std::vector<MatrixXf> get_u() { return u_; };
 };

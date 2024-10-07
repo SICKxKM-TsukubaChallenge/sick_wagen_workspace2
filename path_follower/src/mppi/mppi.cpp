@@ -125,9 +125,16 @@ MatrixXf MPPIController::diff_robot_transition_matrix(const MatrixXf& x) {
 
 double MPPIController::calc_cost(const singleSample& sample) {
   double cost = 0.0;
-  
-
-
-
+  for (uint32_t i = 0; i < num_timesteps_; i++) {
+    if ((int)(sample.x_[i](0, 0) / map_resolution_) < 0 ||
+        (int)(sample.x_[i](0, 0) / map_resolution_) >= map_width_ ||
+        (int)(sample.x_[i](1, 0) / map_resolution_) < 0 ||
+        (int)(sample.x_[i](1, 0) / map_resolution_) >= map_height_) {
+      return 1000000.0;
+    }
+    cost += robot_center_cost_map_[map_width_ * (int)(sample.x_[i](1, 0) /
+                                                      map_resolution_) +
+                                   (int)(sample.x_[i](0, 0) / map_resolution_)];
+  }
   return cost;
 }
