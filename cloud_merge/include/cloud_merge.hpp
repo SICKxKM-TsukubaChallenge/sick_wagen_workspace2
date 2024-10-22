@@ -1,51 +1,54 @@
-cmake_minimum_required(VERSION 3.8)
-project(pcl_tutorial)
+#ifndef CLOUD_MERGE_HPP
+#define CLOUD_MERGE_HPP
 
-# Default to C99
-if(NOT CMAKE_C_STANDARD)
-  set(CMAKE_C_STANDARD 99)
-endif()
+#include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/point_cloud2.hpp>
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+#include <pcl_ros/transforms.hpp>
+#include <pcl_conversions/pcl_conversions.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl/concatenate.h>
 
-# Default to C++14
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
-endif()
+class PointcloudConcatenate : public rclcpp::Node {
+public:
+    PointcloudConcatenate();
+    ~PointcloudConcatenate();
 
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+private:
+    void subCallbackCloudIn1(const sensor_msgs::msg::PointCloud2::SharedPtr msg);
+    void subCallbackCloudIn2(const sensor_msgs::msg::PointCloud2::SharedPtr msg);
+    void subCallbackCloudIn3(const sensor_msgs::msg::PointCloud2::SharedPtr msg);
+    void subCallbackCloudIn4(const sensor_msgs::msg::PointCloud2::SharedPtr msg);
+    void handleParams();
+    double getHz();
+    void update();
+    void publishPointcloud(sensor_msgs::msg::PointCloud2 cloud);
 
-# find dependencies
-find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(sensor_msgs REQUIRED)
-find_package(visualization_msgs REQUIRED)
-find_package(vision_msgs)
-find_package(geometry_msgs REQUIRED)
-find_package(tf2_ros REQUIRED)
-find_package(tf2 REQUIRED)
-find_package(pcl_ros REQUIRED)
-find_package(pcl_conversions REQUIRED)
-find_package(tf2_eigen REQUIRED)
-find_package(PCL REQUIRED)
+    rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr sub_cloud_in1;
+    rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr sub_cloud_in2;
+    rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr sub_cloud_in3;
+    rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr sub_cloud_in4;
+    rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub_cloud_out;
 
-# Full example
-add_executable(pcl_tutorial src/pcloud_merge_node.cpp src/cloud_merge.cpp)
-target_include_directories(pcl_tutorial PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
+    std::shared_ptr<tf2_ros::Buffer> tfBuffer;
+    std::shared_ptr<tf2_ros::TransformListener> tfListener;
 
-ament_target_dependencies(rclcpp tf2_ros tf2 tf2_eigen sensor_msgs visualization_msgs vision_msgs geometry_msgs pcl_ros)
+    std::string param_frame_target_;
+    int param_clouds_;
+    double param_hz_;
 
+    sensor_msgs::msg::PointCloud2 cloud_in1;
+    sensor_msgs::msg::PointCloud2 cloud_in2;
+    sensor_msgs::msg::PointCloud2 cloud_in3;
+    sensor_msgs::msg::PointCloud2 cloud_in4;
+    sensor_msgs::msg::PointCloud2 cloud_out;
 
-install(DIRECTORY
-    launch
-    DESTINATION share/${PROJECT_NAME}
-)
+    bool cloud_in1_received = false;
+    bool cloud_in2_received = false;
+    bool cloud_in3_received = false;
+    bool cloud_in4_received = false;
+};
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
-endif()
-
-ament_package()
+#endif // CLOUD_MERGE_HPP
