@@ -1,3 +1,6 @@
 [submodule "ros_whill"]
 	path = ros_whill
 	url = git@github.com:SICKxKM-TsukubaChallenge/ros_whill.git
+[submodule "custom_msgs"]
+	path = custom_msgs
+	url = https://github.com/SICKxKM-TsukubaChallenge/custom_msgs.git
