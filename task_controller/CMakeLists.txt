@@ -22,7 +22,7 @@ ament_auto_add_executable(task_controller_node
 )
 
 install(DIRECTORY
-  launch
+  config
   DESTINATION share/${PROJECT_NAME}
 )
 
@@ -33,4 +33,4 @@ endif()
 
 ament_auto_package()
 
-add_backward(task_controller_node)
+# add_backward(task_controller_node)

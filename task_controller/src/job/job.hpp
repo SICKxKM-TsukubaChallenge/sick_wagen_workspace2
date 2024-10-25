@@ -41,4 +41,5 @@ class JobExecutor {
  public:
   void AddJob(const Job& job) { jobs_.push_back(job); }
   void ExecuteJobs();
+  void loadJobsFromCSV(const std::string& csv_file);
 };
