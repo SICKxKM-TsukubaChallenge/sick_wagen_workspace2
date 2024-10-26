@@ -11,5 +11,9 @@ class TaskController : public rclcpp::Node {
   rclcpp::TimerBase::SharedPtr timer_;
   JobExecutor job_executor_;
 
+  rclcpp::Publisher<custom_msgs::msg::MoveBaseActionGoal>::SharedPtr
+      goal_publisher_;
+
   void timer_callback();
+  void loadJobsFromCSV(const std::string& csv_file);
 };

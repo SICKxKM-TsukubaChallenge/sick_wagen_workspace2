@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "custom_msgs/msg/move_base_action_goal.hpp"
+
 class Job {
  public:
   enum class JobState { IDLE, RUNNING, FINISHED };

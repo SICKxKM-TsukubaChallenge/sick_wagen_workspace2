@@ -22,7 +22,7 @@ ament_auto_add_executable(task_controller_node
 )
 
 install(DIRECTORY
-  launch
+  config
   DESTINATION share/${PROJECT_NAME}
 )
 
