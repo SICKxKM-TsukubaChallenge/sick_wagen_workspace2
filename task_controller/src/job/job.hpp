@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "custom_msgs/msg/move_base_action_goal.hpp"
+
 class Job {
  public:
   enum class JobState { IDLE, RUNNING, FINISHED };
@@ -41,5 +43,4 @@ class JobExecutor {
  public:
   void AddJob(const Job& job) { jobs_.push_back(job); }
   void ExecuteJobs();
-  void loadJobsFromCSV(const std::string& csv_file);
 };
