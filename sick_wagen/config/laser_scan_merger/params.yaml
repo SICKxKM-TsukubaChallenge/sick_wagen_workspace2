@@ -22,7 +22,7 @@
     laser2XOff: 0.0
     laser2YOff: -0.29
     laser2ZOff: 0.075
-    pointCloudTopic: cloud_in
+    pointCloudTopic: merged_cloud
     pointCloutFrameId: laser_link
     qos_overrides./parameter_events.publisher.depth: 1000
     # qos_overrides./parameter_events.publisher.durability: volatile

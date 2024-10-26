@@ -73,6 +73,7 @@ private:
         pcl_cloud_out += pcl_cloud_in4;
 
         pcl::toROSMsg(pcl_cloud_out, cloud_out);
+        cloud_out.header.frame_id = "base_link";  // フレームIDを設定
         pub_cloud_out->publish(cloud_out);
     }
 
