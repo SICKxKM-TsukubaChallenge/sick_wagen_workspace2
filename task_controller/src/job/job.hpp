@@ -3,8 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "custom_msgs/msg/move_base_action_goal.hpp"
-
 class Job {
  public:
   enum class JobState { IDLE, RUNNING, FINISHED };
@@ -21,9 +19,13 @@ class Job {
   bool doJobFunction() {
     if (job_function_()) {
       state_ = JobState::FINISHED;
+      RCLCPP_WARN(rclcpp::get_logger("rclcpp"), "Job %s finished",
+                  name_.c_str());
       return true;
     } else {
       state_ = JobState::RUNNING;
+      RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Job %s running",
+                  name_.c_str());
       return false;
     }
   }

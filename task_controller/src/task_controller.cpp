@@ -8,14 +8,21 @@ const std::string BASE_LINK = "base_link";
 TaskController::TaskController() : Node("task_controller") {
   // get ros2 parameters
   std::string csv_file;
+
   // this->get_parameter("csv_file", csv_file);
   csv_file =
       "/home/curious/tsukuba_ws/src/sick_wagen_workspace2/task_controller/"
       "config/20240928_114854.csv";
-  // create publisher
+  // publisher
   goal_publisher_ =
       this->create_publisher<custom_msgs::msg::MoveBaseActionGoal>(
           "move_base/move/goal", rclcpp::QoS(10));
+  // subscriber
+  auto subCallback =
+      std::bind(&TaskController::resultCallback, this, std::placeholders::_1);
+  result_subscription_ =
+      this->create_subscription<custom_msgs::msg::MoveBaseActionResult>(
+          "move_base/result", rclcpp::QoS(10), subCallback);
 
   // add jobs
   job_executor_.AddJob(Job("Start", Job::JobType::RUN, []() {
@@ -24,26 +31,6 @@ TaskController::TaskController() : Node("task_controller") {
   }));
 
   loadJobsFromCSV(csv_file);
-  // job_executor_.AddJob(Job("Stop", Job::JobType::STOP, []() {
-  //   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Stop job");
-  //   return true;
-  // }));
-  // job_executor_.AddJob(Job("Adjust", Job::JobType::ADJUST, []() {
-  //   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Adjust job");
-  //   return true;
-  // }));
-  // job_executor_.AddJob(Job("Perception", Job::JobType::PERCEPTION, []() {
-  //   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Perception job");
-  //   return true;
-  // }));
-  // job_executor_.AddJob(Job("Run", Job::JobType::RUN, [this]() {
-  //   custom_msgs::msg::MoveBaseActionGoal goal;
-  //   goal_publisher_->publish(goal);
-  //   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Run job");
-  //   return true;
-  // }));
-
-  // job_executor_.loadJobsFromCSV(csv_file);
   timer_ =
       this->create_wall_timer(std::chrono::milliseconds(DT),
                               std::bind(&TaskController::timer_callback, this));
@@ -115,9 +102,13 @@ void TaskController::loadJobsFromCSV(const std::string& csv_file) {
       line = line.substr(line.find(",") + 1);
 
       job_executor_.AddJob(Job("Run", Job::JobType::RUN, [this, goal]() {
-        goal_publisher_->publish(goal);
         RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "RUN job from csv");
-        return true;
+        goal_publisher_->publish(goal);
+        if (this->resultInQue) {
+          this->resultInQue = false;
+          return true;
+        }
+        return false;
       }));
       goalCount++;
     } else if (job_type == 1) {
@@ -133,6 +124,17 @@ void TaskController::loadJobsFromCSV(const std::string& csv_file) {
     }
   }
   RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Loaded total %d jobs", goalCount);
+}
+
+void TaskController::resultCallback(
+    const custom_msgs::msg::MoveBaseActionResult::SharedPtr msg) {
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Move Base Finished");
+  if (resultInQue) {
+    RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Result in Que");
+  } else {
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Result not in Que");
+    resultInQue = true;
+  }
 }
 
 int main(int argc, char* argv[]) {
