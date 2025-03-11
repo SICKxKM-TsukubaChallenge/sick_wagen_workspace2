@@ -77,90 +77,93 @@ def generate_launch_description():
                 {"laserscan_layer_filter": "0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0"},
                 {"custom_pointclouds": "cloud_360"},
                 {
-                    "cloud_360": "coordinateNotation=3 updateMethod=0 fields=x,y,z,i,echo,reflector echos=0,1,2 layers=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 reflectors=0,1 infringed=0,1 rangeFilter=0,999,0 topic=/multiScan/cloud_360 frameid=multiscan_link publish=1"
+                    "cloud_360": "coordinateNotation=3 updateMethod=0 fields=x,y,z,i layers=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 infringed=0,1 rangeFilter=0,999,0 topic=/multiScan/cloud_360 frameid=multiscan_link publish=1"
                 },
                 ],
         )
     
-    # tim_R_node = Node(
-    #         package = 'sick_scan_xd',
-    #         executable = 'sick_generic_caller',
-    #         name = 'sick_tim_R',
-    #         namespace = 'sick_tim_R',
-    #         output = 'screen',
-    #         parameters = [
-    #             {"scanner_type":"sick_tim_5xx"},
-    #             {"min_ang":-1.832595715},
-    #             {"max_ang":1.832595715},
-    #             {"use_binary_protocol":True},
-    #             {"range_max":100.0},
-    #             {"intensity":True},
-    #             {"hostname":"TIM_RIGHT_IP"},
-    #             {"cloud_topic":"tim_cloud_R"},
-    #             {"frame_id":"tim_link_L"},
-    #             {"port":"2112"},
-    #             {"timelimit":5},
-    #             {"sw_pll_only_publish":True},
-    #             {"min_intensity":0.0},
-    #         ],
-    #         remappings = [('/sick_tim_R/sick_tim_5xx/scan','/tim_scans/tim_scan_R')]
-    #     )
-    # tim_L_node = Node(
-    #         package = 'sick_scan_xd',
-    #         executable = 'sick_generic_caller',
-    #         name = 'sick_tim_L',
-    #         namespace = 'sick_tim_L',
-    #         output = 'screen',
-    #         parameters = [
-    #             {"scanner_type":"sick_tim_5xx"},
-    #             {"min_ang":-1.832595715},
-    #             {"max_ang":1.832595715},
-    #             {"use_binary_protocol":True},
-    #             {"range_max":100.0},
-    #             {"intensity":True},
-    #             {"hostname":"TIM_LEFT_IP"},
-    #             {"cloud_topic":"tim_cloud_L"},
-    #             {"frame_id":"tim_link_R"},
-    #             {"port":"2112"},
-    #             {"timelimit":5},
-    #             {"sw_pll_only_publish":True},
-    #             {"min_intensity":0.0},
-    #         ],
-    #         remappings = [('/sick_tim_L/sick_tim_5xx/scan','/tim_scans/tim_scan_L')]
-    #     )
+    tim_R_node = Node(
+            package = 'sick_scan_xd',
+            executable = 'sick_generic_caller',
+            name = 'sick_tim_R',
+            namespace = 'sick_tim_R',
+            output = 'screen',
+            parameters = [
+                {"scanner_type":"sick_tim_5xx"},
+                {"min_ang":-1.832595715},
+                {"max_ang":1.832595715},
+                {"use_binary_protocol":True},
+                {"range_max":100.0},
+                {"intensity":True},
+                {"hostname":"TIM_RIGHT_IP"},
+                {"cloud_topic":"tim_cloud_R"},
+                {"frame_id":"tim_link_R"},
+                # {"tf_base_frame_id":"tim_link_L"},
+                {"port":"2112"},
+                {"timelimit":5},
+                {"sw_pll_only_publish":True},
+                {"min_intensity":0.0},
+            ],
+            remappings = [('/sick_tim_R/sick_tim_5xx/scan','/tim_scans/tim_scan_R')]
+        )
+    tim_L_node = Node(
+            package = 'sick_scan_xd',
+            executable = 'sick_generic_caller',
+            name = 'sick_tim_L',
+            namespace = 'sick_tim_L',
+            output = 'screen',
+            parameters = [
+                {"scanner_type":"sick_tim_5xx"},
+                {"min_ang":-1.832595715},
+                {"max_ang":1.832595715},
+                {"use_binary_protocol":True},
+                {"range_max":100.0},
+                {"intensity":True},
+                {"hostname":"TIM_LEFT_IP"},
+                {"cloud_topic":"tim_cloud_L"},
+                {"frame_id":"tim_link_L"},
+                # {"tf_base_frame_id":"tim_link_R"},
+                {"port":"2112"},
+                {"timelimit":5},
+                {"sw_pll_only_publish":True},
+                {"min_intensity":0.0},
+            ],
+            remappings = [('/sick_tim_L/sick_tim_5xx/scan','/tim_scans/tim_scan_L')]
+        )
         
     
-    laser_merge_node = launch_ros.actions.Node(
-            package = "ros2_laser_scan_merger",
-            executable='ros2_laser_scan_merger',
-            parameters=[config],
-            output='screen',
-            respawn=True,
-            respawn_delay=2,
-            remappings = [('/lidar_1/scan','/tim_scans/tim_scan_L'), ('/lidar_2/scan','/tim_scans/tim_scan_R')],
-        )
+    # laser_merge_node = launch_ros.actions.Node(
+    #         package = "ros2_laser_scan_merger",
+    #         executable='ros2_laser_scan_merger',
+    #         parameters=[config],
+    #         output='screen',
+    #         respawn=True,
+    #         respawn_delay=2,
+    #         remappings = [('/lidar_1/scan','/tim_scans/tim_scan_L'), ('/lidar_2/scan','/tim_scans/tim_scan_R')],
+    #     )
     
-    cloud_merge_node = Node(
-            package='cloud_merge',   # パッケージ名
-            executable='cloud_merge_node',  # 実行するノードの名前
-            name='cloud_merge_node',  # ノード名
-            output='screen',          # 標準出力をスクリーンに表示
-            parameters=[{
-                'use_sim_time': False,  # 必要に応じてシミュレーション時間を使用
-                'frame_id': 'base_link'
-            }],
-            remappings=[
-                ('/cloud_in1', '/merged_cloud'),  # トピック名のリマッピング
-                ('/cloud_in2', '/multiScan/cloud_360'),
-                ('/cloud_out', '/cloud_concatenated'),
-            ]
-        )
+    # cloud_merge_node = Node(
+    #         package='cloud_merge',   # パッケージ名
+    #         executable='cloud_merge_node',  # 実行するノードの名前
+    #         name='cloud_merge_node',  # ノード名
+    #         output='screen',          # 標準出力をスクリーンに表示
+    #         parameters=[{
+    #             'use_sim_time': False,  # 必要に応じてシミュレーション時間を使用
+    #             'frame_id': 'base_link'
+    #         }],
+    #         remappings=[
+    #             ('/cloud_in1', '/sick_tim_L/tim_cloud_L'),  # トピック名のリマッピング
+    #             ('/cloud_in2', '/sick_tim_R/tim_cloud_R'),
+    #             ('/cloud_in3', '/multiScan/cloud_360'),
+    #             ('/cloud_out', '/cloud_concatenated'),
+    #         ]
+    #     )
 
 
     ld.add_action(multiscan_node)
-    ld.add_action(cloud_merge_node)
-    # ld.add_action(tim_R_node)
-    # ld.add_action(tim_L_node)
-    ld.add_action(laser_merge_node)
+    # ld.add_action(cloud_merge_node)
+    ld.add_action(tim_R_node)
+    ld.add_action(tim_L_node)
+    # ld.add_action(laser_merge_node)
     
     return ld
