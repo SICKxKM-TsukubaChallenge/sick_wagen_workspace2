@@ -2,11 +2,11 @@
   ros__parameters:
     flip1: false
     flip2: false
-    inverse1: true
-    inverse2: true
+    inverse1: false
+    inverse2: false
     laser1Alpha: 48.586
-    laser1AngleMax: 0.0
-    laser1AngleMin: 0.0
+    laser1AngleMax: 180.0
+    laser1AngleMin: -180.0
     laser1B: 0
     laser1G: 0
     laser1R: 255
@@ -14,8 +14,8 @@
     laser1YOff: 0.29
     laser1ZOff: 0.075
     laser2Alpha: -48.586
-    laser2AngleMax: 0.0
-    laser2AngleMin: 0.0
+    laser2AngleMax: 180.0
+    laser2AngleMin: -180.0
     laser2B: 255
     laser2G: 0
     laser2R: 0
@@ -28,8 +28,8 @@
     # qos_overrides./parameter_events.publisher.durability: volatile
     # qos_overrides./parameter_events.publisher.history: keep_last
     qos_overrides./parameter_events.publisher.reliability: best_effort
-    scanTopic1: /lidar_1/scan
-    scanTopic2: /lidar_2/scan
+    scanTopic1: /sick_tim_L/sick_tim_5xx/scan
+    scanTopic2: /sick_tim_R/sick_tim_5xx/scan
     show1: true
     show2: true
     use_sim_time: false

@@ -74,7 +74,6 @@ def generate_launch_description():
                 {"sw_pll_only_publish":True},
                 {"min_intensity":0.0},
             ],
-            remappings = [('/sick_tim_L/sick_tim_5xx/scan','/tim_scans/tim_scan_L')]
         )
         
     
@@ -85,7 +84,6 @@ def generate_launch_description():
             output='screen',
             respawn=True,
             respawn_delay=2,
-            remappings = [('/lidar_1/scan','/tim_scans/tim_scan_L'), ('/lidar_2/scan','/tim_scans/tim_scan_R')],
         )
 
 
