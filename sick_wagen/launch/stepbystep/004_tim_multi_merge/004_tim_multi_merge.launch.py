@@ -28,7 +28,6 @@ def generate_launch_description():
     )
     pkg_dir = get_package_share_directory("sick_wagen")    
     
-    
     tim_R_node = Node(
             package = 'sick_scan_xd',
             executable = 'sick_generic_caller',
@@ -90,10 +89,10 @@ def generate_launch_description():
         )
 
 
-    ld.add_action(multiscan_node)
+    # ld.add_action(multiscan_node)
     # ld.add_action(cloud_merge_node)
     ld.add_action(tim_R_node)
     ld.add_action(tim_L_node)
-    # ld.add_action(laser_merge_node)
+    ld.add_action(laser_merge_node)
     
     return ld
