@@ -1,0 +1,11 @@
+pointcloud_concatenate:
+  ros__parameters:
+    cloud_in1_topic: "cloud_1"
+    cloud_in2_topic: "cloud_2"
+    cloud_in3_topic: "cloud_in3"
+    cloud_in4_topic: "cloud_in4"
+    cloud_out_topic: "cloud_out"
+    cloud_in1_frame: "frame1"
+    cloud_in2_frame: "frame2"
+    cloud_in3_frame: "frame3"
+    cloud_in4_frame: "frame4"

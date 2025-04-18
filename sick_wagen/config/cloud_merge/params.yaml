@@ -1,0 +1,11 @@
+pointcloud_concatenate:
+  ros__parameters:
+    cloud_in1_topic: /merged_cloud
+    cloud_in2_topic: /multiScan/cloud_360
+    cloud_in3_topic: /cloud_in3
+    cloud_in4_topic: /cloud_in4
+    cloud_out_topic: /cloud_concatenated
+    cloud_in1_frame: laser_link
+    cloud_in2_frame: multiscan_link
+    cloud_in3_frame: frame3
+    cloud_in4_frame: frame4

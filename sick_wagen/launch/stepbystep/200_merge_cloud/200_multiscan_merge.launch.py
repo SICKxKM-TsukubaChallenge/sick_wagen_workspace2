@@ -26,6 +26,15 @@ def generate_launch_description():
         'laser_scan_merger',
         'params.yaml'
     )
+    # config_cloud_merge = os.path.join(
+    #     get_package_share_directory('sick_wagen'),
+    #     'config',
+    #     'cloud_merge',
+    #     'params.yaml'
+    # )
+    config_cloud_merge = '/home/sick/ros2_ws/sick_wagen_workspace2/sick_wagen/config/laser_scan_merger/params.yaml'
+
+        
     pkg_dir = get_package_share_directory("sick_wagen")    
     
     multiscan_node = Node(
@@ -132,38 +141,31 @@ def generate_launch_description():
         )
         
     
-    # laser_merge_node = launch_ros.actions.Node(
-    #         package = "ros2_laser_scan_merger",
-    #         executable='ros2_laser_scan_merger',
-    #         parameters=[config],
-    #         output='screen',
-    #         respawn=True,
-    #         respawn_delay=2,
-    #         remappings = [('/lidar_1/scan','/tim_scans/tim_scan_L'), ('/lidar_2/scan','/tim_scans/tim_scan_R')],
-    #     )
+    laser_merge_node = launch_ros.actions.Node(
+            package = "ros2_laser_scan_merger",
+            executable='ros2_laser_scan_merger',
+            parameters=[config],
+            output='screen',
+            respawn=True,
+            respawn_delay=2,
+            remappings = [('/lidar_1/scan','/tim_scans/tim_scan_L'), ('/lidar_2/scan','/tim_scans/tim_scan_R')],
+        )
     
-    # cloud_merge_node = Node(
-    #         package='cloud_merge',   # パッケージ名
-    #         executable='cloud_merge_node',  # 実行するノードの名前
-    #         name='cloud_merge_node',  # ノード名
-    #         output='screen',          # 標準出力をスクリーンに表示
-    #         parameters=[{
-    #             'use_sim_time': False,  # 必要に応じてシミュレーション時間を使用
-    #             'frame_id': 'base_link'
-    #         }],
-    #         remappings=[
-    #             ('/cloud_in1', '/sick_tim_L/tim_cloud_L'),  # トピック名のリマッピング
-    #             ('/cloud_in2', '/sick_tim_R/tim_cloud_R'),
-    #             ('/cloud_in3', '/multiScan/cloud_360'),
-    #             ('/cloud_out', '/cloud_concatenated'),
-    #         ]
-    #     )
+    cloud_merge_node = Node(
+            package='cloud_merge',   # パッケージ名
+            executable='cloud_merge_node',  # 実行するノードの名前
+            name='cloud_merge_node',  # ノード名
+            output='screen',          # 標準出力をスクリーンに表示
+            respawn=True,
+            respawn_delay=2,
+            parameters=[config_cloud_merge],
+        )
 
 
     ld.add_action(multiscan_node)
-    # ld.add_action(cloud_merge_node)
+    ld.add_action(cloud_merge_node)
     ld.add_action(tim_R_node)
     ld.add_action(tim_L_node)
-    # ld.add_action(laser_merge_node)
+    ld.add_action(laser_merge_node)
     
     return ld
