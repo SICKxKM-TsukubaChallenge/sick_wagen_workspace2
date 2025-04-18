@@ -11,8 +11,7 @@ TaskController::TaskController() : Node("task_controller") {
 
   // this->get_parameter("csv_file", csv_file);
   csv_file =
-      "/home/curious/tsukuba_ws/src/sick_wagen_workspace2/task_controller/"
-      "config/20240928_114854.csv";
+      "/home/sick/Docker/sick_wagen_ws/waypoints/20241026_143131.csv";
   // publisher
   goal_publisher_ =
       this->create_publisher<custom_msgs::msg::MoveBaseActionGoal>(
