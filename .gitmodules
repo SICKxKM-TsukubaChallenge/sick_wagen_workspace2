@@ -29,3 +29,4 @@
 [submodule "livox_ros_driver2"]
 	path = livox_ros_driver2
 	url = git@github.com:SICKxKM-TsukubaChallenge/livox_ros_driver2.git
+
