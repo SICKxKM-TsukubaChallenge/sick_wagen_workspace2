@@ -1,7 +1,7 @@
 pointcloud_concatenate:
   ros__parameters:
-    cloud_in1_topic: "cloud_in1"
-    cloud_in2_topic: "cloud_in2"
+    cloud_in1_topic: "cloud_1"
+    cloud_in2_topic: "cloud_2"
     cloud_in3_topic: "cloud_in3"
     cloud_in4_topic: "cloud_in4"
     cloud_out_topic: "cloud_out"
