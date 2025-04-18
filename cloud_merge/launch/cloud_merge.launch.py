@@ -12,7 +12,7 @@ def generate_launch_description():
                 'use_sim_time': False  # 必要に応じてシミュレーション時間を使用
             }],
             remappings=[
-                ('/cloud_in1', '/sick_tim_L/tim_cloud_L'),  # トピック名のリマッピング
+                ('/cloud_in1', '/merged_cloud'),  # トピック名のリマッピング
                 ('/cloud_in2', '/multiScan/cloud_360'),
             ]
         )
