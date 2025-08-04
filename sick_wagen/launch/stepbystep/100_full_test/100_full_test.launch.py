@@ -189,7 +189,7 @@ def generate_launch_description():
         namespace="whill",
         output="screen",
         respawn=True,
-        parameters=[os.path.join(pkg_dir, "config/whill", "whill_param.yaml")],
+        parameters=[os.path.join(pkg_dir, "config/whill", "whill_params.yaml")],
     )
 
     joy_node = Node(
