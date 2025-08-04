@@ -20,7 +20,3 @@
 [submodule "ndt_omp_ros2"]
 	path = ndt_omp_ros2
 	url = git@github.com:SICKxKM-TsukubaChallenge/ndt_omp_ros2.git
-[submodule "FAST_LIO"]
-	path = FAST_LIO
-	url = git@github.com:hku-mars/FAST_LIO.git
-	branch = ROS2
