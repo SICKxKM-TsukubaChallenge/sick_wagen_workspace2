@@ -78,7 +78,7 @@
 
 
 
-    <link name="sensor_arm_link">
+    <!-- <link name="sensor_arm_link">
 
         <collision>
             <origin xyz="0 0 0.225" rpy="0 0 0" />
@@ -111,7 +111,7 @@
         <origin xyz="0.20 0 0.025" rpy="0 0 0"/>
         <parent link="base_floor"/>
         <child link="sensor_arm_link"/>
-    </joint>
+    </joint> -->
 
 
     <link name="left_wheel_link">
@@ -362,7 +362,7 @@
     <joint name="multiscan_joint" type="fixed">
     <parent link="base_link" />
     <child link="multiscan_link" />
-    <origin xyz="-0.10 0 1.545" rpy="0 0 0" />
+    <origin xyz="-0.10 0 1.03" rpy="0 0 0" />
     </joint>
     <link name="multiscan_link">
     <visual>
@@ -393,7 +393,7 @@
     <joint name="imu_joint" type="fixed">
     <parent link="base_link" />
     <child link="imu_link" />
-    <origin xyz="-0.14 0 1.05" rpy="0 0 0" />
+    <origin xyz="0.45 0 0.25" rpy="0 0 0" />
     </joint>
     <link name="imu_link">
     <inertial>
@@ -420,7 +420,7 @@
     <joint name="gps_joint" type="fixed">
     <parent link="base_link" />
     <child link="gps_link" />
-    <origin xyz="0.12 0.25 1.03" rpy="0 0 0" />
+    <origin xyz="-0.1 0.25 1.03" rpy="0 0 0" />
     </joint>
     <link name="gps_link">
     <inertial>
