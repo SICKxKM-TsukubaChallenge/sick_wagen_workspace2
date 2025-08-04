@@ -52,11 +52,11 @@ bt_navigator:
     navigators: ["navigate_to_pose", "navigate_through_poses"]  # 使用するナビゲータのリスト
     navigate_to_pose:
       plugin: "nav2_bt_navigator::NavigateToPoseNavigator"  # ナビゲータのプラグイン
-      enable_groot_monitoring: false  # Grootモニタリングを有効にするかどうか
+      enable_groot_monitoring: true  # Grootモニタリングを有効にするかどうか
       groot_server_port: 1667  # Grootサーバーポート番号
     navigate_through_poses:
       plugin: "nav2_bt_navigator::NavigateThroughPosesNavigator"  # ナビゲータのプラグイン
-      enable_groot_monitoring: false  # Grootモニタリングを有効にするかどうか
+      enable_groot_monitoring: true  # Grootモニタリングを有効にするかどうか
       groot_server_port: 1669  # Grootサーバーポート番号
 
 controller_server:
