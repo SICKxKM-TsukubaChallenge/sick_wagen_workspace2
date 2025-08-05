@@ -17,7 +17,7 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
     ld = LaunchDescription()
-    LAPTOP_IP = "192.168.0.101"
+    LAPTOP_IP = "192.168.0.16"
     MULTISCAN_IP = "192.168.0.4"
     
     config = os.path.join(
@@ -172,6 +172,7 @@ def generate_launch_description():
         executable='witmotion_ros_node',
         parameters=[config_imu],
         output='screen',
+        remappings=[("/imu", "/wit/imu")],
         respawn=True,
     )
 
@@ -189,7 +190,7 @@ def generate_launch_description():
         namespace="whill",
         output="screen",
         respawn=True,
-        parameters=[os.path.join(pkg_dir, "config/whill", "whill_param.yaml")],
+        parameters=[os.path.join(pkg_dir, "config/whill", "whill_params.yaml")],
     )
 
     joy_node = Node(
