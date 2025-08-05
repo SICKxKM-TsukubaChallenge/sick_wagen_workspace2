@@ -20,3 +20,9 @@
 [submodule "ndt_omp_ros2"]
 	path = ndt_omp_ros2
 	url = git@github.com:SICKxKM-TsukubaChallenge/ndt_omp_ros2.git
+[submodule "lidar_localization_ros2"]
+  path = lidar_localization_ros2
+  url = git@github.com:rsasaki0109/lidar_localization_ros2.git
+[submodule "robot_localization"]
+  path = robot_localization
+  url = git@github.com:cra-ros-pkg/robot_localization.git
