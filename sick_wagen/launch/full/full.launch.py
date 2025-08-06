@@ -28,6 +28,13 @@ def generate_launch_description():
       }.items()
   )
 
+  localization_launch = IncludeLaunchDescription(
+      PythonLaunchDescriptionSource([
+          get_package_share_directory('sick_wagen'),
+          '/launch/full/localization.launch.py'
+      ])
+  )
+
   urdf_file = os.path.join(
       get_package_share_directory('sick_wagen'),
       'urdf', 'sick_wagen.urdf'
@@ -50,6 +57,7 @@ def generate_launch_description():
 
 
   return LaunchDescription([
-      nav2_launch,
+      # nav2_launch,
+      localization_launch,
       robot_state_publisher
   ])
