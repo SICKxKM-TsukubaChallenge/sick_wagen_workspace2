@@ -201,7 +201,7 @@ def generate_launch_description():
         remappings=[("/joy", "/whill/controller/joy")],
     )
 
-    rviz_config_dir = os.path.join(pkg_dir, "rviz", "sick_wagen.rviz")
+    rviz_config_dir = os.path.join(pkg_dir, "rviz", "100.rviz")
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
