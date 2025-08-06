@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [submodule "ros2_laser_scan_merger"]
 	path = ros2_laser_scan_merger
 	url = git@github.com:SICKxKM-TsukubaChallenge/ros2_laser_scan_merger.git
@@ -30,3 +31,27 @@
 	path = livox_ros_driver2
 	url = git@github.com:SICKxKM-TsukubaChallenge/livox_ros_driver2.git
 
+=======
+[submodule "ros2_laser_scan_merger"]
+	path = ros2_laser_scan_merger
+	url = git@github.com:SICKxKM-TsukubaChallenge/ros2_laser_scan_merger.git
+[submodule "ros2_whill"]
+	path = ros2_whill
+	url = git@github.com:SICKxKM-TsukubaChallenge/ros2_whill.git
+[submodule "pointcloud_to_laserscan"]
+	path = pointcloud_to_laserscan
+	url = git@github.com:SICKxKM-TsukubaChallenge/pointcloud_to_laserscan.git
+[submodule "ros2_whill_interfaces"]
+	path = ros2_whill_interfaces
+	url = git@github.com:SICKxKM-TsukubaChallenge/ros2_whill_interfaces.git
+[submodule "witmotion_IMU_ROS"]
+	path = witmotion_IMU_ROS
+	url = git@github.com:SICKxKM-TsukubaChallenge/witmotion_IMU_ROS.git
+	branch = ros2
+[submodule "ros2_v4l2_camera"]
+	path = ros2_v4l2_camera
+	url = git@github.com:SICKxKM-TsukubaChallenge/ros2_v4l2_camera.git
+[submodule "ndt_omp_ros2"]
+	path = ndt_omp_ros2
+	url = git@github.com:SICKxKM-TsukubaChallenge/ndt_omp_ros2.git
+>>>>>>> f92148063c8d9f8afe40f0547b83f860b3d52c5b
