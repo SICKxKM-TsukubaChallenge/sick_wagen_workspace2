@@ -12,7 +12,7 @@
       scan_min_range: 1.0
       scan_period: 0.02
       use_pcd_map: true
-      map_path: "/home/curious/sick_ws/src/sick_wagen_workspace2/sick_wagen/maps/sick_10f.pcd"
+      map_path: "/home/sick/ros2_ws/src/sick_wagen/maps/10f_08_06.pcd"
       set_initial_pose: true
       initial_pose_x: 0.0
       initial_pose_y: 0.0
@@ -20,8 +20,8 @@
       initial_pose_qx: 0.0
       initial_pose_qy: 0.0
       initial_pose_qz: 0.0
-      initial_pose_qw: 0.0
-      use_odom: false
+      initial_pose_qw: 1.0
+      use_odom: true
       odom_topic: "/whill/odom"
       use_imu: true
       imu_topic: "/wit/imu"

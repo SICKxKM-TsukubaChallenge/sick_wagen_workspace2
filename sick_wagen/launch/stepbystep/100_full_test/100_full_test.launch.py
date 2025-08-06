@@ -210,7 +210,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    ld.add_action(robot_state_publisher_node)
+    # ld.add_action(robot_state_publisher_node)
     ld.add_action(whill_node)
     ld.add_action(joy_node)
     ld.add_action(rviz_node)
