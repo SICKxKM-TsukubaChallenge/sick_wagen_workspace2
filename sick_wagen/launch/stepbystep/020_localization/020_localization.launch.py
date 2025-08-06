@@ -23,7 +23,7 @@ def generate_launch_description():
         executable='ekf_node',
         name='ekf_filter_node',
         output='screen',
-        parameters=[os.path.join(get_package_share_directory("sick_wagen"), 'config', 'localization_params', 'ekf.yaml')],
+        parameters=[os.path.join(get_package_share_directory("sick_wagen"), 'config', 'localization', 'ekf.yaml')],
     )
     ld.add_action(ekf_node)
 
@@ -34,7 +34,7 @@ def generate_launch_description():
     #    executable='navsat_transform_node',
     #    name='navsat_transform_node',
     #    output='screen',
-    #    parameters=[os.path.join(get_package_share_directory("robot_localization"), 'params', 'navsat_transform.yaml')],
+    #    parameters=[os.path.join(get_package_share_directory("sick_wagen"), 'config', 'localization', 'navsat_transform.yaml')],
     #)
     #ld.add_action(navsat_transform_node)
 
@@ -44,7 +44,7 @@ def generate_launch_description():
         name='lidar_tf',
         package='tf2_ros',
         executable='static_transform_publisher',
-        arguments=['0', '0', '0', '0', '0', '0', '1', 'map', 'base_link']
+        arguments=['0', '0', '0', '0', '0', '0', '1', 'base_link', 'velodyne']
     )
     ld.add_action(lidar_tf)
 
@@ -55,12 +55,15 @@ def generate_launch_description():
         executable='static_transform_publisher',
         arguments=['0', '0', '0', '0', '0', '0', '1', 'base_link', 'imu_link']
     )
+    # Note: lidar_localization.launch.pyではimu_tfはld.add_actionされていませんでしたが、
+    # 統合ファイルとして全ての機能を有効にするため追加します。
     ld.add_action(imu_tf)
 
     # localization.yamlのパス設定
     localization_param_dir = launch.substitutions.LaunchConfiguration(
         'localization_param_dir',
-        default=os.path.join(get_package_share_directory('sick_wagen'), 'config', 'localization_params', 'localization.yaml'))
+        default=os.path.join(
+            get_package_share_directory("sick_wagen"), 'config', 'localization', 'localization.yaml'))
 
     # lidar_localizationのライフサイクルノード
     lidar_localization = LifecycleNode(
@@ -72,7 +75,7 @@ def generate_launch_description():
         remappings=[('/cloud', '/multiScan/cloud_360'), ('/imu', '/wit/imu')],
         output='screen')
     ld.add_action(lidar_localization)
-    
+
     # ライフサイクルノードをunconfiguredからinactive状態へ遷移させるイベント発行
     to_inactive = launch.actions.EmitEvent(
         event=launch_ros.events.lifecycle.ChangeState(
