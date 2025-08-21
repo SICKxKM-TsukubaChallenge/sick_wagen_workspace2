@@ -205,7 +205,7 @@ def generate_launch_description():
         name="wagen_controller",
         output="screen",
         respawn=True,
-        #remappings=[("/cmd_vel", "/whill/controller/joy")]
+        parameters=[os.path.join(pkg_dir, "config/wagen_controller", "wagen_controller.yaml")]
     )
 
     rviz_config_dir = os.path.join(pkg_dir, "rviz", "sick_wagen.rviz")
