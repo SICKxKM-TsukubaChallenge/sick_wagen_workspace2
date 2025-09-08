@@ -4,7 +4,7 @@ from launch import LaunchDescription
 import launch_ros.actions
 from launch_ros.actions import Node
 from launch import LaunchDescription
-from launch.actions import (DeclareLaunchArgument, EmitEvent, LogInfo, RegisterEventHandler)
+from launch.actions import (DeclareLaunchArgument, EmitEvent, LogInfo, RegisterEventHandler, TimerAction)
 from launch.conditions import IfCondition
 from launch.events import matches_action
 from launch.substitutions import (AndSubstitution, LaunchConfiguration, NotSubstitution)
@@ -201,6 +201,12 @@ def generate_launch_description():
         remappings=[("/joy", "/whill/controller/joy")],
     )
 
+    # joy_nodeを5秒遅延して起動
+    delayed_joy_node = TimerAction(
+        period=3.0,
+        actions=[joy_node]
+    )
+
     # rviz_config_dir = os.path.join(pkg_dir, "rviz", "100.rviz")
     # rviz_node = Node(
     #     package='rviz2',
@@ -212,7 +218,7 @@ def generate_launch_description():
 
     # ld.add_action(robot_state_publisher_node)
     ld.add_action(whill_node)
-    ld.add_action(joy_node)
+    ld.add_action(delayed_joy_node)
     # ld.add_action(rviz_node)
     ld.add_action(multiscan_node)
     ld.add_action(cloud_merge_node)
