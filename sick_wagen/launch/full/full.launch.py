@@ -34,6 +34,21 @@ def generate_launch_description():
           '/launch/full/localization.launch.py'
       ])
   )
+  
+  full_launch = IncludeLaunchDescription(
+      PythonLaunchDescriptionSource([
+          get_package_share_directory('sick_wagen'),
+          '/launch/stepbystep/100_full_test/100_full_test.launch.py'
+      ])
+  ) 
+  rviz_config_dir = os.path.join(get_package_share_directory('sick_wagen'), 'config/rviz/full/full.rviz')
+  rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', rviz_config_dir],
+        output='screen'
+    )
 
   urdf_file = os.path.join(
       get_package_share_directory('sick_wagen'),
@@ -57,7 +72,9 @@ def generate_launch_description():
 
 
   return LaunchDescription([
-      # nav2_launch,
+    #   nav2_launch,
       localization_launch,
+      full_launch,
+      rviz_node,
       robot_state_publisher
   ])

@@ -176,13 +176,13 @@ def generate_launch_description():
         respawn=True,
     )
 
-    robot_state_publisher_node = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        namespace="",
-        remappings=[("/joint_states", "/whill/states/joint_state")],
-        arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
-    )
+    # robot_state_publisher_node = Node(
+    #     package="robot_state_publisher",
+    #     executable="robot_state_publisher",
+    #     namespace="",
+    #     remappings=[("/joint_states", "/whill/states/joint_state")],
+    #     arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
+    # )
 
     whill_node = Node(
         package="ros2_whill",
@@ -201,19 +201,19 @@ def generate_launch_description():
         remappings=[("/joy", "/whill/controller/joy")],
     )
 
-    rviz_config_dir = os.path.join(pkg_dir, "rviz", "100.rviz")
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        arguments=['-d', rviz_config_dir],
-        output='screen'
-    )
+    # rviz_config_dir = os.path.join(pkg_dir, "rviz", "100.rviz")
+    # rviz_node = Node(
+    #     package='rviz2',
+    #     executable='rviz2',
+    #     name='rviz2',
+    #     arguments=['-d', rviz_config_dir],
+    #     output='screen'
+    # )
 
-    ld.add_action(robot_state_publisher_node)
+    # ld.add_action(robot_state_publisher_node)
     ld.add_action(whill_node)
     ld.add_action(joy_node)
-    ld.add_action(rviz_node)
+    # ld.add_action(rviz_node)
     ld.add_action(multiscan_node)
     ld.add_action(cloud_merge_node)
     ld.add_action(imu_node)
