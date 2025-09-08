@@ -77,8 +77,8 @@ def generate_launch_description():
 
   return LaunchDescription([
       # nav2_launch,
-      localization_launch,
+    #   localization_launch,
       robot_state_publisher,
-      rviz_node,
+    #   rviz_node,
       full_launch
   ])
