@@ -2,7 +2,7 @@ import os
 
 from launch import LaunchDescription
 import launch_ros.actions
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import ComposableNodeContainer
 from launch_ros.actions import Node
@@ -17,7 +17,7 @@ def generate_launch_description():
           '/launch/full/nav2.launch.py'
       ]),
       launch_arguments={
-          # 'namespace': 'nav2',
+          'namespace': 'nav2',
           # this makes the bug do not use the namespace
           'use_sim_time': 'false',
           'autostart': 'true',
@@ -26,13 +26,6 @@ def generate_launch_description():
               'config', 'nav2', 'nav2_params.yaml'
           ),
       }.items()
-  )
-
-  localization_launch = IncludeLaunchDescription(
-      PythonLaunchDescriptionSource([
-          get_package_share_directory('sick_wagen'),
-          '/launch/full/localization.launch.py'
-      ])
   )
   
   full_launch = IncludeLaunchDescription(
@@ -73,12 +66,23 @@ def generate_launch_description():
         arguments=['-d', rviz_config_dir],
         output='screen'
     )
-
+  
+  localization_launch = IncludeLaunchDescription(
+      PythonLaunchDescriptionSource([
+          get_package_share_directory('sick_wagen'),
+          '/launch/full/localization.launch.py'
+      ])
+  )
+    # localization_launchを5秒遅延して起動
+  delayed_localization_launch = TimerAction(
+      period=3.0,
+      actions=[localization_launch]
+  )
 
   return LaunchDescription([
-      # nav2_launch,
-    #   localization_launch,
+      rviz_node,
+      delayed_localization_launch,
       robot_state_publisher,
-    #   rviz_node,
-      full_launch
+      full_launch,
+      nav2_launch
   ])

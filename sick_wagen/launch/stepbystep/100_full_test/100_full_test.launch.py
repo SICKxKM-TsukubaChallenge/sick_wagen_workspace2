@@ -193,6 +193,12 @@ def generate_launch_description():
         parameters=[os.path.join(pkg_dir, "config/whill", "whill_params.yaml")],
     )
 
+    # whill_nodeを7秒遅延して起動（joy_nodeより後）
+    delayed_whill_node = TimerAction(
+        period=3.0,
+        actions=[whill_node]
+    )
+
     joy_node = Node(
         name="joy_node",
         package="joy",
@@ -203,7 +209,7 @@ def generate_launch_description():
 
     # joy_nodeを5秒遅延して起動
     delayed_joy_node = TimerAction(
-        period=3.0,
+        period=1.0,
         actions=[joy_node]
     )
 
@@ -217,7 +223,7 @@ def generate_launch_description():
     # )
 
     # ld.add_action(robot_state_publisher_node)
-    ld.add_action(whill_node)
+    ld.add_action(delayed_whill_node)
     ld.add_action(delayed_joy_node)
     # ld.add_action(rviz_node)
     ld.add_action(multiscan_node)

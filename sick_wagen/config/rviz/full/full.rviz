@@ -79,7 +79,7 @@ Visualization Manager:
         Durability Policy: Transient Local
         Filter size: 10
         History Policy: Keep Last
-        Reliability Policy: Best Effort
+        Reliability Policy: Reliable
         Value: /initial_map
       Use Fixed Frame: true
       Use rainbow: true
