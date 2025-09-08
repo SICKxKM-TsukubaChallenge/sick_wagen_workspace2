@@ -17,7 +17,7 @@ def generate_launch_description():
           '/launch/full/nav2.launch.py'
       ]),
       launch_arguments={
-          'namespace': 'nav2',
+          # 'namespace': 'nav2',
           # this makes the bug do not use the namespace
           'use_sim_time': 'false',
           'autostart': 'true',
@@ -39,21 +39,6 @@ def generate_launch_description():
       get_package_share_directory('sick_wagen'),
       'urdf', 'sick_wagen.urdf'
   )
-  robot_description = {'robot_description': open(urdf_file).read()}
-  robot_state_publisher = Node(
-      package='robot_state_publisher',
-      executable='robot_state_publisher',
-      name='robot_state_publisher',
-      output='screen',
-      parameters=[
-          robot_description,
-          {'use_sim_time': False}
-      ],
-      remappings=[
-          ('/tf', '/tf'),
-          ('/tf_static', '/tf_static')
-      ]
-  )
   
   rviz_config_dir = os.path.join(
         get_package_share_directory('sick_wagen'),
@@ -73,16 +58,32 @@ def generate_launch_description():
           '/launch/full/localization.launch.py'
       ])
   )
-    # localization_launchを5秒遅延して起動
+    # localization_launchを3秒遅延して起動
   delayed_localization_launch = TimerAction(
       period=3.0,
       actions=[localization_launch]
   )
 
+  # Map server to provide static map for nav2
+  map_server = Node(
+      package='nav2_map_server',
+      executable='map_server',
+      name='map_server',
+      output='screen',
+      parameters=[{
+          'use_sim_time': False,
+          'yaml_filename': os.path.join(
+              get_package_share_directory('sick_wagen'),
+              'maps', 'garden_small.yaml'  # 適切なマップファイルに変更
+          )
+      }]
+  )
+
   return LaunchDescription([
       rviz_node,
       delayed_localization_launch,
-      robot_state_publisher,
+      # robot_state_publisher,  # 100_full_test.launch.pyで起動するためコメントアウト
       full_launch,
-      nav2_launch
+      nav2_launch,
+      map_server
   ])

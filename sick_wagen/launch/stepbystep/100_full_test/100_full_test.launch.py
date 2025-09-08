@@ -154,7 +154,10 @@ def generate_launch_description():
             output='screen',
             respawn=True,
             respawn_delay=2,
-            remappings = [('/lidar_1/scan','/tim_scans/tim_scan_L'), ('/lidar_2/scan','/tim_scans/tim_scan_R')],
+            remappings = [
+                ('/lidar_1/scan', '/tim_scans/tim_scan_L'), 
+                ('/lidar_2/scan', '/tim_scans/tim_scan_R')
+            ],
         )
     
     cloud_merge_node = Node(
@@ -176,13 +179,13 @@ def generate_launch_description():
         respawn=True,
     )
 
-    # robot_state_publisher_node = Node(
-    #     package="robot_state_publisher",
-    #     executable="robot_state_publisher",
-    #     namespace="",
-    #     remappings=[("/joint_states", "/whill/states/joint_state")],
-    #     arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
-    # )
+    robot_state_publisher_node = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        namespace="",
+        remappings=[("/joint_states", "/whill/states/joint_state")],
+        arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
+    )
 
     whill_node = Node(
         package="ros2_whill",
@@ -222,7 +225,7 @@ def generate_launch_description():
     #     output='screen'
     # )
 
-    # ld.add_action(robot_state_publisher_node)
+    ld.add_action(robot_state_publisher_node)
     ld.add_action(delayed_whill_node)
     ld.add_action(delayed_joy_node)
     # ld.add_action(rviz_node)
