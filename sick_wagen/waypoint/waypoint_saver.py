@@ -15,8 +15,8 @@ now = datetime.now()
 csv_filename = now.strftime("%Y-%m-%d_%H%M") + ".csv"
 yaml_filename = now.strftime("%Y-%m-%d_%H%M") + "_waypoints.yaml"
 
-# 保存ディレクトリをcsvディレクトリに変更
-save_dir = os.path.join(os.path.dirname(__file__), 'csv')
+# 保存ディレクトリ（例: このスクリプトのdataディレクトリに保存）
+save_dir = os.path.join(os.path.dirname(__file__), '../data')
 os.makedirs(save_dir, exist_ok=True)  # ディレクトリがなければ作成
 
 csvfile = os.path.join(save_dir, csv_filename)
