@@ -57,7 +57,7 @@ def generate_launch_description():
                 {"udp_sender": ""},
                 {"udp_port": 2115},
                 {"segment_count": 12},
-                {"publish_frame_id": "world"},
+                {"publish_frame_id": "multiscan_link"},
                 {"publish_laserscan_segment_topic": "laserscan_segment"},
                 {"publish_laserscan_fullframe_topic": "laserscan_fullframe"},
                 {"udp_input_fifolength": 20},
@@ -154,7 +154,10 @@ def generate_launch_description():
             output='screen',
             respawn=True,
             respawn_delay=2,
-            remappings = [('/lidar_1/scan','/tim_scans/tim_scan_L'), ('/lidar_2/scan','/tim_scans/tim_scan_R')],
+            remappings = [
+                ('/lidar_1/scan', '/tim_scans/tim_scan_L'), 
+                ('/lidar_2/scan', '/tim_scans/tim_scan_R')
+            ],
         )
     
     cloud_merge_node = Node(
@@ -176,13 +179,13 @@ def generate_launch_description():
         respawn=True,
     )
 
-    # robot_state_publisher_node = Node(
-    #     package="robot_state_publisher",
-    #     executable="robot_state_publisher",
-    #     namespace="",
-    #     remappings=[("/joint_states", "/whill/states/joint_state")],
-    #     arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
-    # )
+    robot_state_publisher_node = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        namespace="",
+        remappings=[("/joint_states", "/whill/states/joint_state")],
+        arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
+    )
 
     whill_node = Node(
         package="ros2_whill",
@@ -191,6 +194,12 @@ def generate_launch_description():
         output="screen",
         respawn=True,
         parameters=[os.path.join(pkg_dir, "config/whill", "whill_params.yaml")],
+    )
+
+    # whill_nodeを7秒遅延して起動（joy_nodeより後）
+    delayed_whill_node = TimerAction(
+        period=3.0,
+        actions=[whill_node]
     )
 
     joy_node = Node(
@@ -224,6 +233,9 @@ def generate_launch_description():
     # ld.add_action(robot_state_publisher_node)
     ld.add_action(whill_node)
     ld.add_action(wagen_controller_node)
+    ld.add_action(robot_state_publisher_node)
+    ld.add_action(joy_node)
+
     # ld.add_action(rviz_node)
     ld.add_action(multiscan_node)
     ld.add_action(cloud_merge_node)
