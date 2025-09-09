@@ -198,14 +198,19 @@ def generate_launch_description():
         package="joy",
         executable="joy_node",
         output="screen",
-        remappings=[("/joy", "/whill/controller/joy")],
+        #remappings=[("/joy", "/whill/controller/joy")],
     )
 
-    # joy_nodeを5秒遅延して起動
-    delayed_joy_node = TimerAction(
-        period=3.0,
-        actions=[joy_node]
+    #cmd_vel
+    wagen_controller_node = Node(
+        package="sick_wagen",
+        executable="wagen_controller.py",
+        name="wagen_controller",
+        output="screen",
+        respawn=True,
+        parameters=[os.path.join(pkg_dir, "config/wagen_controller", "wagen_controller.yaml")]
     )
+
 
     # rviz_config_dir = os.path.join(pkg_dir, "rviz", "100.rviz")
     # rviz_node = Node(
@@ -218,7 +223,7 @@ def generate_launch_description():
 
     # ld.add_action(robot_state_publisher_node)
     ld.add_action(whill_node)
-    ld.add_action(delayed_joy_node)
+    ld.add_action(wagen_controller_node)
     # ld.add_action(rviz_node)
     ld.add_action(multiscan_node)
     ld.add_action(cloud_merge_node)
