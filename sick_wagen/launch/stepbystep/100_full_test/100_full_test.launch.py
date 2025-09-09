@@ -234,6 +234,7 @@ def generate_launch_description():
     ld.add_action(whill_node)
     ld.add_action(wagen_controller_node)
     ld.add_action(robot_state_publisher_node)
+    ld.add_action(joy_node)
 
     # ld.add_action(rviz_node)
     ld.add_action(multiscan_node)

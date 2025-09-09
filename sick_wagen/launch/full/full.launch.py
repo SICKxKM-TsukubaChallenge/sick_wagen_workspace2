@@ -79,18 +79,18 @@ def generate_launch_description():
       }]
   )
 
-  # Map server用のライフサイクルマネージャー
-  map_lifecycle_manager = Node(
-      package='nav2_lifecycle_manager',
-      executable='lifecycle_manager',
-      name='lifecycle_manager_mapper',
-      output='screen',
-      parameters=[{
-          'use_sim_time': False,
-          'autostart': True,
-          'node_names': ['map_server']
-      }]
-  )
+#   # Map server用のライフサイクルマネージャー
+#   map_lifecycle_manager = Node(
+#       package='nav2_lifecycle_manager',
+#       executable='lifecycle_manager',
+#       name='lifecycle_manager_mapper',
+#       output='screen',
+#       parameters=[{
+#           'use_sim_time': False,
+#           'autostart': True,
+#           'node_names': ['map_server']
+#       }]
+#   )
 
   return LaunchDescription([
       rviz_node,
@@ -99,5 +99,5 @@ def generate_launch_description():
       full_launch,
       nav2_launch,
       map_server,
-      map_lifecycle_manager
+    #   map_lifecycle_manager
   ])
