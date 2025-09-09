@@ -23,7 +23,7 @@
       initial_pose_qw: 0.0
       use_odom: false
       odom_topic: "/whill/odom"
-      use_imu: true
+      use_imu: false
       imu_topic: "/multiScan/multiScan/imu"
       enable_debug: true
       enable_map_odom_tf: true

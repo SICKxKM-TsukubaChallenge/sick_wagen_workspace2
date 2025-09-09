@@ -74,7 +74,7 @@ def generate_launch_description():
           'use_sim_time': False,
           'yaml_filename': os.path.join(
               get_package_share_directory('sick_wagen'),
-              'maps', 'garden_small.yaml'  # 適切なマップファイルに変更
+              'maps', 'sick_10f.pcd'  # 適切なマップファイルに変更
           )
       }]
   )

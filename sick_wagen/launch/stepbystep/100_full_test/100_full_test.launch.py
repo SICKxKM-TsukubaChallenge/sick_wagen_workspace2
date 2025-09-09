@@ -57,7 +57,7 @@ def generate_launch_description():
                 {"udp_sender": ""},
                 {"udp_port": 2115},
                 {"segment_count": 12},
-                {"publish_frame_id": "world"},
+                {"publish_frame_id": "multiscan_link"},
                 {"publish_laserscan_segment_topic": "laserscan_segment"},
                 {"publish_laserscan_fullframe_topic": "laserscan_fullframe"},
                 {"udp_input_fifolength": 20},
