@@ -74,8 +74,21 @@ def generate_launch_description():
           'use_sim_time': False,
           'yaml_filename': os.path.join(
               get_package_share_directory('sick_wagen'),
-              'maps', 'sick_10f.pcd'  # 適切なマップファイルに変更
+              'maps', 'sick_10f.yaml'
           )
+      }]
+  )
+
+  # Map server用のライフサイクルマネージャー
+  map_lifecycle_manager = Node(
+      package='nav2_lifecycle_manager',
+      executable='lifecycle_manager',
+      name='lifecycle_manager_mapper',
+      output='screen',
+      parameters=[{
+          'use_sim_time': False,
+          'autostart': True,
+          'node_names': ['map_server']
       }]
   )
 
@@ -85,5 +98,6 @@ def generate_launch_description():
       # robot_state_publisher,  # 100_full_test.launch.pyで起動するためコメントアウト
       full_launch,
       nav2_launch,
-      map_server
+      map_server,
+      map_lifecycle_manager
   ])
