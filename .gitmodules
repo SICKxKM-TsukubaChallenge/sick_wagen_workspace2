@@ -26,3 +26,7 @@
 [submodule "robot_localization"]
   path = robot_localization
   url = git@github.com:cra-ros-pkg/robot_localization.git
+[submodule "ublox"]
+	path = ublox
+	url = https://github.com/KumarRobotics/ublox.git
+	branch = ros2

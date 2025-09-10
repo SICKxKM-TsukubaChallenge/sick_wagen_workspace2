@@ -2,7 +2,7 @@ import os
 
 from launch import LaunchDescription
 import launch_ros.actions
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import ComposableNodeContainer
 from launch_ros.actions import Node
@@ -27,21 +27,23 @@ def generate_launch_description():
           ),
       }.items()
   )
-
-  localization_launch = IncludeLaunchDescription(
-      PythonLaunchDescriptionSource([
-          get_package_share_directory('sick_wagen'),
-          '/launch/full/localization.launch.py'
-      ])
-  )
   
   full_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
           get_package_share_directory('sick_wagen'),
           '/launch/stepbystep/100_full_test/100_full_test.launch.py'
       ])
-  ) 
-  rviz_config_dir = os.path.join(get_package_share_directory('sick_wagen'), 'config/rviz/full/full.rviz')
+  )
+
+  urdf_file = os.path.join(
+      get_package_share_directory('sick_wagen'),
+      'urdf', 'sick_wagen.urdf'
+  )
+  
+  rviz_config_dir = os.path.join(
+        get_package_share_directory('sick_wagen'),
+        'config', 'rviz', 'full/full.rviz'
+    )
   rviz_node = Node(
         package='rviz2',
         executable='rviz2',
@@ -49,32 +51,53 @@ def generate_launch_description():
         arguments=['-d', rviz_config_dir],
         output='screen'
     )
-
-  urdf_file = os.path.join(
-      get_package_share_directory('sick_wagen'),
-      'urdf', 'sick_wagen.urdf'
+  
+  localization_launch = IncludeLaunchDescription(
+      PythonLaunchDescriptionSource([
+          get_package_share_directory('sick_wagen'),
+          '/launch/full/localization.launch.py'
+      ])
   )
-  robot_description = {'robot_description': open(urdf_file).read()}
-  robot_state_publisher = Node(
-      package='robot_state_publisher',
-      executable='robot_state_publisher',
-      name='robot_state_publisher',
+    # localization_launchを3秒遅延して起動
+  delayed_localization_launch = TimerAction(
+      period=3.0,
+      actions=[localization_launch]
+  )
+
+  # Map server to provide static map for nav2
+  map_server = Node(
+      package='nav2_map_server',
+      executable='map_server',
+      name='map_server',
       output='screen',
-      parameters=[
-          robot_description,
-          {'use_sim_time': False}
-      ],
-      remappings=[
-          ('/tf', '/tf'),
-          ('/tf_static', '/tf_static')
-      ]
+      parameters=[{
+          'use_sim_time': False,
+          'yaml_filename': os.path.join(
+              get_package_share_directory('sick_wagen'),
+              'maps', 'sick_10f.yaml'
+          )
+      }]
   )
 
+#   # Map server用のライフサイクルマネージャー
+#   map_lifecycle_manager = Node(
+#       package='nav2_lifecycle_manager',
+#       executable='lifecycle_manager',
+#       name='lifecycle_manager_mapper',
+#       output='screen',
+#       parameters=[{
+#           'use_sim_time': False,
+#           'autostart': True,
+#           'node_names': ['map_server']
+#       }]
+#   )
 
   return LaunchDescription([
-    #   nav2_launch,
-      localization_launch,
-      full_launch,
       rviz_node,
-      robot_state_publisher
+      delayed_localization_launch,
+      # robot_state_publisher,  # 100_full_test.launch.pyで起動するためコメントアウト
+      full_launch,
+      nav2_launch,
+      map_server,
+    #   map_lifecycle_manager
   ])

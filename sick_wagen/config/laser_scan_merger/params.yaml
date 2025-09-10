@@ -22,14 +22,14 @@
     laser2XOff: 0.0
     laser2YOff: -0.29
     laser2ZOff: 0.075
-    pointCloudTopic: merged_cloud
+    pointCloudTopic: scan
     pointCloudFrameId: laser_link
     qos_overrides./parameter_events.publisher.depth: 1000
     # qos_overrides./parameter_events.publisher.durability: volatile
     # qos_overrides./parameter_events.publisher.history: keep_last
     qos_overrides./parameter_events.publisher.reliability: best_effort
-    scanTopic1: /sick_tim_L/sick_tim_5xx/scan
-    scanTopic2: /sick_tim_R/sick_tim_5xx/scan
+    scanTopic1: /tim_scans/tim_scan_L
+    scanTopic2: /tim_scans/tim_scan_R
     show1: true
     show2: true
     use_sim_time: false
