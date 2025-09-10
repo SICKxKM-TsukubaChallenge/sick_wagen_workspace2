@@ -6,7 +6,7 @@ ublox_gps_node:
     frame_id: gps
     #config_on_startup: false
     uart1:
-      baudrate: 38400         # Baudrate for UART1 (if used)
+      baudrate: 9600         # Baudrate for UART1 (if used)
     # TMODE3 Config
     tmode3: 1                   # Survey-In Mode
     sv_in:

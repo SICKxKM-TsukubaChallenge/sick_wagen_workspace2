@@ -24,6 +24,7 @@ def generate_launch_description():
         name='ekf_filter_node',
         output='screen',
         parameters=[os.path.join(get_package_share_directory("sick_wagen"), 'config', 'localization_param', 'ekf.yaml')],
+        remappings=[('/odometry/filtered', '/odometry/ekf')]
     )
     ld.add_action(ekf_node)
 
@@ -39,7 +40,7 @@ def generate_launch_description():
         package='lidar_localization_ros2',
         executable='lidar_localization_node',
         parameters=[localization_param_dir],
-        remappings=[('/cloud', '/multiScan/cloud_360'), ('/imu', '/multiScan/multiScan/imu')],
+        remappings=[('/cloud', '/multiScan/cloud_360'), ('/imu', '/multiScan/multiScan/imu'), ('/odom', '/whill/odom')],
         output='screen')
     ld.add_action(lidar_localization)
 
