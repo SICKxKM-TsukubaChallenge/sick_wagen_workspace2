@@ -83,15 +83,5 @@ def generate_launch_description():
         )
     )
     ld.add_action(from_inactive_to_active)
-    
-    navsat_node = Node(
-            package='robot_localization',
-            executable='navsat_transform_node',
-            name='navsat_transform_node',
-            output='screen',
-            parameters=[os.path.join(get_package_share_directory("robot_localization"), 'params', 'navsat_transform.yaml')],
-            remappings=[('/imu', '/wit/imu'), ('/gps/fix', '/ublox/fix'), ('/odometry/filtered', '/whill/odom')],
-           )
-    ld.add_action(navsat_node)
 
     return ld
