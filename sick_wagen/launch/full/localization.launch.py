@@ -18,14 +18,14 @@ def generate_launch_description():
 
     # --- ekf.launch.pyからのノード ---
     # robot_localizationパッケージのekf_nodeを起動
-    ekf_node = Node(
-        package='robot_localization',
-        executable='ekf_node',
-        name='ekf_filter_node',
-        output='screen',
-        parameters=[os.path.join(get_package_share_directory("sick_wagen"), 'config', 'localization_param', 'ekf.yaml')],
-    )
-    ld.add_action(ekf_node)
+    # ekf_node = Node(
+    #     package='robot_localization',
+    #     executable='ekf_node',
+    #     name='ekf_filter_node',
+    #     output='screen',
+    #     parameters=[os.path.join(get_package_share_directory("sick_wagen"), 'config', 'localization_param', 'ekf.yaml')],
+    # )
+    # ld.add_action(ekf_node)
 
     # localization.yamlのパス設定
     localization_param_dir = launch.substitutions.LaunchConfiguration(
@@ -39,9 +39,8 @@ def generate_launch_description():
         package='lidar_localization_ros2',
         executable='lidar_localization_node',
         parameters=[localization_param_dir],
-        remappings=[('/cloud', '/multiScan/cloud_360'), ('/imu', '/multiScan/multiScan/imu')],
+        remappings=[('/cloud', '/multiScan/cloud_360'), ('/imu', '/multiScan/multiScan/imu'), ('/odom', '/whill/odom')],
         output='screen')
-    ld.add_action(lidar_localization)
 
     # ライフサイクルノードをunconfiguredからinactive状態へ遷移させるイベント発行
     to_inactive = launch.actions.EmitEvent(
@@ -50,7 +49,6 @@ def generate_launch_description():
             transition_id=lifecycle_msgs.msg.Transition.TRANSITION_CONFIGURE,
         )
     )
-    ld.add_action(to_inactive)
 
     # ライフサイクルノードの状態遷移を管理するイベントハンドラ
     from_unconfigured_to_inactive = launch.actions.RegisterEventHandler(
@@ -66,7 +64,6 @@ def generate_launch_description():
             ],
         )
     )
-    ld.add_action(from_unconfigured_to_inactive)
 
     from_inactive_to_active = launch.actions.RegisterEventHandler(
         launch_ros.event_handlers.OnStateTransition(
@@ -82,6 +79,16 @@ def generate_launch_description():
             ],
         )
     )
-    ld.add_action(from_inactive_to_active)
+
+    delayed_lidar_localization = launch.actions.TimerAction(
+        period=2.0,
+        actions=[
+            lidar_localization,
+            to_inactive,
+            from_unconfigured_to_inactive,
+            from_inactive_to_active
+        ]
+    )
+    ld.add_action(delayed_lidar_localization)
 
     return ld
