@@ -18,14 +18,14 @@ def generate_launch_description():
 
     # --- ekf.launch.pyからのノード ---
     # robot_localizationパッケージのekf_nodeを起動
-    # ekf_node = Node(
-    #     package='robot_localization',
-    #     executable='ekf_node',
-    #     name='ekf_filter_node',
-    #     output='screen',
-    #     parameters=[os.path.join(get_package_share_directory("sick_wagen"), 'config', 'localization_param', 'ekf.yaml')],
-    # )
-    # ld.add_action(ekf_node)
+    ekf_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[os.path.join(get_package_share_directory("sick_wagen"), 'config', 'localization_param', 'ekf.yaml')],
+    )
+    ld.add_action(ekf_node)
 
     # localization.yamlのパス設定
     localization_param_dir = launch.substitutions.LaunchConfiguration(

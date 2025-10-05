@@ -58,6 +58,7 @@ def generate_launch_description():
                 {"udp_port": 2115},
                 {"segment_count": 12},
                 {"publish_frame_id": "multiscan_link"},
+                {"tf_publish_rate": 0.0},
                 {"publish_laserscan_segment_topic": "laserscan_segment"},
                 {"publish_laserscan_fullframe_topic": "laserscan_fullframe"},
                 {"udp_input_fifolength": 20},
@@ -113,11 +114,13 @@ def generate_launch_description():
                 {"hostname":"TIM_RIGHT_IP"},
                 {"cloud_topic":"tim_cloud_R"},
                 {"frame_id":"tim_link_R"},
-                # {"tf_base_frame_id":"tim_link_L"},
+                {"tf_base_frame_id":"tim_link_R"},
+                {"tf_publish_rate": 0.0},
                 {"port":"2112"},
                 {"timelimit":5},
                 {"sw_pll_only_publish":True},
                 {"min_intensity":0.0},
+                {"publish_tf": False},
             ],
             remappings = [('/sick_tim_R/sick_tim_5xx/scan','/tim_scans/tim_scan_R')]
         )
@@ -137,11 +140,13 @@ def generate_launch_description():
                 {"hostname":"TIM_LEFT_IP"},
                 {"cloud_topic":"tim_cloud_L"},
                 {"frame_id":"tim_link_L"},
-                # {"tf_base_frame_id":"tim_link_R"},
+                {"tf_base_frame_id":"tim_link_L"},
+                {"tf_publish_rate": 0.0},
                 {"port":"2112"},
                 {"timelimit":5},
                 {"sw_pll_only_publish":True},
                 {"min_intensity":0.0},
+                {"publish_tf": False},  
             ],
             remappings = [('/sick_tim_L/sick_tim_5xx/scan','/tim_scans/tim_scan_L')]
         )
@@ -193,7 +198,7 @@ def generate_launch_description():
         package="joy",
         executable="joy_node",
         output="screen",
-        remappings=[("/joy", "/whill/controller/joy")],
+        # remappings=[("/joy", "/whill/controll/joy")],
     )
 
     #cmd_vel
