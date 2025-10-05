@@ -12,7 +12,7 @@
       scan_min_range: 1.0
       scan_period: 0.02
       use_pcd_map: true
-      map_path: "/home/sick/ros2_ws/maps/tsukuba_pointcloud.pcd"
+      map_path: "/home/sick/ros2_ws/maps/tsukuba_whole_map_flatten_22_down.pcd"
       set_initial_pose: true
       initial_pose_x: 0.0
       initial_pose_y: 0.0
