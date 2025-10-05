@@ -179,14 +179,6 @@ def generate_launch_description():
         respawn=True,
     )
 
-    robot_state_publisher_node = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        namespace="",
-        remappings=[("/joint_states", "/whill/states/joint_state")],
-        arguments=[os.path.join(pkg_dir, "urdf", "sick_wagen.urdf")]
-    )
-
     whill_node = Node(
         package="ros2_whill",
         executable="ros2_whill",
@@ -224,7 +216,7 @@ def generate_launch_description():
     #     output='screen'
     # )
 
-    ld.add_action(robot_state_publisher_node)
+    # ld.add_action(robot_state_publisher_node)
     ld.add_action(whill_node)
     ld.add_action(wagen_controller_node)
     ld.add_action(joy_node)

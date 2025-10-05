@@ -28,6 +28,15 @@ def generate_launch_description():
       }.items()
   )
   
+  pkg_dir = get_package_share_directory("sick_wagen")  
+  robot_state_publisher_node = IncludeLaunchDescription(
+    package="robot_state_publisher",
+    executable="robot_state_publisher",
+    namespace="",
+    remappings=[("/joint_states", "/whill/states/joint_state")],
+    arguments=[os.path.join(pkg_dir , "urdf", "sick_wagen.urdf")]
+  )
+      
   sensor_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
           get_package_share_directory('sick_wagen'),
@@ -48,16 +57,16 @@ def generate_launch_description():
     )
   
   # Map server node
-#   map_server_node = Node(
-#       package='nav2_map_server',
-#       executable='map_server',
-#       name='map_server',
-#       parameters=[{
-#           'yaml_filename': '/home/sick/ros2_ws/maps/map_2024-11_white_2.yaml',
-#           'use_sim_time': False
-#       }],
-#       output='screen'
-#   )
+  map_server_node = IncludeLaunchDescription(
+      package='nav2_map_server',
+      executable='map_server',
+      name='map_server',
+      parameters=[{
+          'yaml_filename': '/home/sick/ros2_ws/maps/map_2024-11_white_2.yaml',
+          'use_sim_time': False
+      }],
+      output='screen'
+  )
 
   localization_launch = IncludeLaunchDescription(
       PythonLaunchDescriptionSource([
@@ -72,8 +81,8 @@ def generate_launch_description():
   )
 
   return LaunchDescription([
-    #   map_server_node,
-      lifecycle_manager_node,
+      map_server_node,
+      robot_state_publisher_node,
       rviz_node,
       sensor_launch,
       delayed_localization_launch,
