@@ -22,7 +22,7 @@ class WagenController(Node):
         self.declare_parameter('maxAngular', 1.0)
 
         # 起動直後監視用（秒）とデッドバンド
-        self.declare_parameter('startupGuardSec', 5.0)   # ← ここを変えれば監視時間を変更可
+        self.declare_parameter('startupGuardSec', 2.0)   # ← ここを変えれば監視時間を変更可
         self.declare_parameter('neutralDeadband', 0.10)  # |axis| <= 0.10 をニュートラル扱い
 
         self.linear_gain = float(self.get_parameter('linearGain').value)
@@ -76,6 +76,7 @@ class WagenController(Node):
         RStickX = msg.axes[2]
         RStickY = msg.axes[3]
         LB_btn  = msg.buttons[4] if len(msg.buttons) > 4 else 0
+        START_btn = msg.buttons[9] if len(msg.buttons) > 9 else 0  # STARTボタン（インデックス9）
 
         # ---- 起動直後のロックアウト判定 ----
         t = (self.get_clock().now() - self.start_time).nanoseconds * 1e-9
@@ -86,12 +87,18 @@ class WagenController(Node):
             if non_neutral:
                 self.locked = True
 
+        # --- startボタンでロック解除 ---
+        if self.locked and START_btn == 1:
+            self.locked = False
+            self._lock_logged = False
+            self.get_logger().info("[UNLOCKED] startボタンでロック解除しました。")
+
         # ロック中は常に 0
         if self.locked:
             if not self._lock_logged:
                 self.get_logger().error(
                     f"[LOCKED] 起動後 {self.startup_guard_sec:.1f}s 以内に /joy の非ニュートラル入力を検出。"
-                    f" 以後は安全のため速度を常に 0 に固定します。 (X={RStickX:.2f}, Y={RStickY:.2f})"
+                    f" startボタンでロック解除できます。 (X={RStickX:.2f}, Y={RStickY:.2f})"
                 )
                 self._lock_logged = True
             vx, wz = 0.0, 0.0

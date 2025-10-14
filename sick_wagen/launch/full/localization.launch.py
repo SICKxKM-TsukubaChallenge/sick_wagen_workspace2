@@ -81,7 +81,7 @@ def generate_launch_description():
     )
 
     delayed_lidar_localization = launch.actions.TimerAction(
-        period=2.0,
+        period=0.0,
         actions=[
             lidar_localization,
             to_inactive,
