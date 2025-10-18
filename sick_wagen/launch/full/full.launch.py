@@ -68,7 +68,8 @@ def generate_launch_description():
         ],
         remappings=[
             ('/tf', '/tf'),
-            ('/tf_static', '/tf_static')
+            ('/tf_static', '/tf_static'),
+            ('/joint_states', '/whill/states/joint_state')
         ]
     )
 
@@ -84,19 +85,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    # map_server_node = Node(
-    #     package='nav2_map_server',
-    #     executable='map_server',
-    #     name='map_server',
-    #     output='screen',
-    #     parameters=[
-    #         {'yaml_filename': '/home/sick/ros2_ws/maps/map_2024-11_white_12.yaml'},
-    #         {'use_sim_time': False}
-    #     ]
-    # )
-
     return LaunchDescription([
-        # map_server_node,
         robot_state_publisher,
         rviz_node,
         sensor_launch,

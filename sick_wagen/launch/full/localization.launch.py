@@ -39,7 +39,7 @@ def generate_launch_description():
         package='lidar_localization_ros2',
         executable='lidar_localization_node',
         parameters=[localization_param_dir],
-        remappings=[('/cloud', '/multiScan/cloud_360'), ('/imu', '/multiScan/multiScan/imu'), ('/odom', '/whill/odom')],
+        remappings=[('/cloud', '/multiScan/cloud_360'), ('/imu', '/multiScan/multiScan/imu'), ('/odom', '/whill/odom'), ('/map', '/map_localization')],
         output='screen')
 
     # ライフサイクルノードをunconfiguredからinactive状態へ遷移させるイベント発行
