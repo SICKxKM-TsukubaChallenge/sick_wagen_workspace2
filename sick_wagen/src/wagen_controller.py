@@ -118,7 +118,7 @@ class WagenController(Node):
         self.cmd_vel_whill.angular.z = msg.axes[0]
 
     # Twist -> Joy 変換（/whill/controller/joy 出力）
-    def publish_whill_joy(self, twist: Twist):
+    def publish_whill_joy(self, twist: Twist, buttons=None):
         lin = 0.0 if self.max_linear  <= 0.0 else clamp(twist.linear.x  / self.max_linear,  -1.0, 1.0)
         ang = 0.0 if self.max_angular <= 0.0 else clamp(twist.angular.z / self.max_angular, -1.0, 1.0)
 
@@ -127,7 +127,10 @@ class WagenController(Node):
 
         joy = Joy()
         joy.axes = [0.0, 0.0, 0.0, 0.0]
-        joy.buttons = [0]*8
+        if buttons is not None:
+            joy.buttons = buttons
+        else:
+            joy.buttons = [0]*8
 
         joy.axes[1] = lin
         joy.axes[0] = ang
@@ -140,19 +143,24 @@ class WagenController(Node):
             zero = Twist()
             self.cmd_vel = zero
             self.cmd_pub.publish(zero)
-            self.publish_whill_joy(zero)
+            self.publish_whill_joy(zero, buttons=[0]*12)
             return
 
         # 優先順位: WHILLの手元操作 > 手動ゲームパッド > ナビ
         if self.cmd_vel_whill.linear.x != 0.0 or self.cmd_vel_whill.angular.z != 0.0:
             self.cmd_vel = self.cmd_vel_whill
+            buttons = None
         elif self.cmd_vel_joy.linear.x != 0.0 or self.cmd_vel_joy.angular.z != 0.0:
             self.cmd_vel = self.cmd_vel_joy
+            # Joyコールバックの最新ボタン情報を反映
+            buttons = None
         else:
             self.cmd_vel = self.sub_cmd_vel
+            buttons = None
 
         self.cmd_pub.publish(self.cmd_vel)
-        self.publish_whill_joy(self.cmd_vel)
+        # Joyメッセージのボタン情報を反映（必要ならselfから取得）
+        self.publish_whill_joy(self.cmd_vel, buttons=None)
 
 def main(args=None):
     rclpy.init(args=args)

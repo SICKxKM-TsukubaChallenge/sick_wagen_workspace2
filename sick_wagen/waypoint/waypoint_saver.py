@@ -29,10 +29,16 @@ class WaypointSaver(Node):
         self.tf_buffer = tf2_ros.Buffer()
         self.tf_listener = tf2_ros.TransformListener(self.tf_buffer, self)
         
-        self.subscription = self.create_subscription(
+        self.joy_buttons = [0]*12
+        self.joy_subscription = self.create_subscription(
+            Joy,
+            '/joy',
+            self.joy_buttons_callback,
+            10)
+        self.whill_subscription = self.create_subscription(
             Joy,
             '/whill/controller/joy',
-            self.joy_callback,
+            self.whill_joy_callback,
             10)
         
         self.waypoints = []
@@ -55,40 +61,38 @@ class WaypointSaver(Node):
         with open(yamlfile, 'w') as f:
             yaml.dump(waypoints_data, f, default_flow_style=False)
 
-    def joy_callback(self, msg):
-        continue_signal = msg.buttons[1]  # ボタン2 (index 1) - 進行ウェイポイント
-        pause_signal = msg.buttons[2]     # ボタン3 (index 2) - 一時停止ウェイポイント
+    def joy_buttons_callback(self, msg):
+        self.joy_buttons = msg.buttons
+
+    def whill_joy_callback(self, msg):
+        # /joyのボタン情報で判定
+        continue_signal = self.joy_buttons[1] if len(self.joy_buttons) > 1 else 0
+        pause_signal = self.joy_buttons[2] if len(self.joy_buttons) > 2 else 0
 
         if continue_signal or pause_signal:
             try:
-                # map -> base_link の変換を取得
-                transform = self.tf_buffer.lookup_transform(
-                    'map', 'base_link', rclpy.time.Time())
-                
-                x = transform.transform.translation.x
-                y = transform.transform.translation.y
-                z = transform.transform.translation.z
-                qx = transform.transform.rotation.x
-                qy = transform.transform.rotation.y
-                qz = transform.transform.rotation.z
-                qw = transform.transform.rotation.w
-                
+                # /whill/controller/joyのaxesから位置取得
+                x = msg.axes[0] if len(msg.axes) > 0 else 0.0
+                y = msg.axes[1] if len(msg.axes) > 1 else 0.0
+                z = 0.0
+                qx, qy, qz, qw = 0.0, 0.0, 0.0, 1.0
+
                 action = 0 if continue_signal else 1
                 action_name = "continue" if continue_signal else "pause"
-                
+
                 self.get_logger().info(f"Saving {action_name} waypoint at: x={x:.3f}, y={y:.3f}, qz={qz:.3f}, qw={qw:.3f}")
-                
+
                 # CSV形式で保存（従来の形式）
                 waypoint_data = f"[({x},{y},0.0),(0.0,0.0,{qz},{qw})],{action}"
                 with open(csvfile, 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([waypoint_data])
-                
+
                 # Nav2用YAML形式で保存
                 self.save_nav2_waypoint(x, y, z, qx, qy, qz, qw, action)
-                
+
             except Exception as e:
-                self.get_logger().error(f"Failed to get transform: {str(e)}")
+                self.get_logger().error(f"Failed to get waypoint from whill joy: {str(e)}")
     
     def save_nav2_waypoint(self, x, y, z, qx, qy, qz, qw, action):
         self.waypoint_count += 1
