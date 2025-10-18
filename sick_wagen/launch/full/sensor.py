@@ -194,13 +194,18 @@ def generate_launch_description():
         respawn=True,
     )
 
+    whill_params_path = os.path.join(
+        get_package_share_directory("sick_wagen"),
+        "config/whill",
+        "whill_params.yaml"
+    )
     whill_node = Node(
         package="ros2_whill",
         executable="ros2_whill",
         namespace="whill",
         output="screen",
         respawn=True,
-        parameters=[os.path.join(pkg_dir, "config/whill", "whill_params.yaml")],
+        parameters=[whill_params_path],
     )
 
     joy_node = Node(

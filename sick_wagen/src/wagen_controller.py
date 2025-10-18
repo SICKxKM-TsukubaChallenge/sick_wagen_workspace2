@@ -36,11 +36,11 @@ class WagenController(Node):
         self.neutral_deadband = float(self.get_parameter('neutralDeadband').value)
 
         # ===== Publishers =====
-        self.cmd_pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.cmd_pub = self.create_publisher(Twist, '/whill/controller/cmd_vel', 10)
         self.whill_cmd_pub = self.create_publisher(Joy, '/whill/controller/joy', 10)
 
         # ===== Subscribers =====
-        self.create_subscription(Twist, '/cmd_vel_move_base', self.nav_callback, 10)
+        self.create_subscription(Twist, '/cmd_vel', self.nav_callback, 10)
         self.create_subscription(Joy, '/joy', self.joy_callback, 10)
         self.create_subscription(Joy, '/whill/states/joy', self.whill_callback, 10)
 

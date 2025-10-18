@@ -1,4 +1,4 @@
-whill_modelc_controller_node:
+/whill/whill_modelc_controller_node:
   ros__parameters:
     serialport: "/dev/ttyUSB-WHILL"
     wheel_radius: 0.135
