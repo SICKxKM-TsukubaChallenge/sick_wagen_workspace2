@@ -11,7 +11,7 @@ bt_navigator:
     # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml
     # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml
     # They can be set here or via a RewrittenYaml remap from a parent launch file to Nav2.
-    default_nav_through_poses_bt_xml: "sick_wagen/config/nav2/nav_bt.xml"
+    # default_nav_through_poses_bt_xml: "sick_wagen/config/nav2/nav_bt.xml"
     navigators: ["navigate_to_pose", "navigate_through_poses"]
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node

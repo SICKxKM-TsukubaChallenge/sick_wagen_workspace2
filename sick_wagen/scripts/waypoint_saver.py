@@ -44,10 +44,9 @@ class WaypointSaver(Node):
         self.waypoints = []
         self.waypoint_count = 0
         
-        # CSVファイル初期化
+        # CSVファイル初期化（ヘッダーなし、タブ区切り）
         with open(csvfile, 'w') as fc:
-            writer = csv.writer(fc)
-            writer.writerow(['waypoint_data'])
+            pass
         
         # YAMLファイル初期化
         self.init_yaml_file()
@@ -71,28 +70,32 @@ class WaypointSaver(Node):
 
         if continue_signal or pause_signal:
             try:
-                # /whill/controller/joyのaxesから位置取得
-                x = msg.axes[0] if len(msg.axes) > 0 else 0.0
-                y = msg.axes[1] if len(msg.axes) > 1 else 0.0
-                z = 0.0
-                qx, qy, qz, qw = 0.0, 0.0, 0.0, 1.0
+                # tfからmap→base_linkの座標・姿勢を取得
+                trans = self.tf_buffer.lookup_transform('map', 'base_link', rclpy.time.Time())
+                x = trans.transform.translation.x
+                y = trans.transform.translation.y
+                z = trans.transform.translation.z
+                qx = trans.transform.rotation.x
+                qy = trans.transform.rotation.y
+                qz = trans.transform.rotation.z
+                qw = trans.transform.rotation.w
 
                 action = 0 if continue_signal else 1
                 action_name = "continue" if continue_signal else "pause"
 
                 self.get_logger().info(f"Saving {action_name} waypoint at: x={x:.3f}, y={y:.3f}, qz={qz:.3f}, qw={qw:.3f}")
 
-                # CSV形式で保存（従来の形式）
-                waypoint_data = f"[({x},{y},0.0),(0.0,0.0,{qz},{qw})],{action}"
+                # CSV形式で保存（数値のみ、タブ区切り）
+                waypoint_row = [x, y, 0, 0, 0, qz, qw, action]
                 with open(csvfile, 'a') as f:
-                    writer = csv.writer(f)
-                    writer.writerow([waypoint_data])
+                    writer = csv.writer(f, delimiter='\t')
+                    writer.writerow(waypoint_row)
 
                 # Nav2用YAML形式で保存
                 self.save_nav2_waypoint(x, y, z, qx, qy, qz, qw, action)
 
             except Exception as e:
-                self.get_logger().error(f"Failed to get waypoint from whill joy: {str(e)}")
+                self.get_logger().error(f"Failed to get tf: {str(e)}")
     
     def save_nav2_waypoint(self, x, y, z, qx, qy, qz, qw, action):
         self.waypoint_count += 1
