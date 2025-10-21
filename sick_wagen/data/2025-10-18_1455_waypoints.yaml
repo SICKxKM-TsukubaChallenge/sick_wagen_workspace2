@@ -1,0 +1,2510 @@
+waypoints:
+- name: waypoint_1
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_2
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_3
+  pose:
+    position:
+      x: 0.03161577135324478
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_4
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_5
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_6
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_7
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_8
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_9
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_10
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_11
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_12
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_13
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_14
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_15
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_16
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_17
+  pose:
+    position:
+      x: -0.07803602516651154
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_18
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_19
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_20
+  pose:
+    position:
+      x: 0.02645573392510414
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_21
+  pose:
+    position:
+      x: 0.03677580878138542
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_22
+  pose:
+    position:
+      x: 0.05741595849394798
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_23
+  pose:
+    position:
+      x: 0.05741595849394798
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_24
+  pose:
+    position:
+      x: 0.10901632905006409
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_25
+  pose:
+    position:
+      x: 0.0728960707783699
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_26
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_27
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_28
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_29
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_30
+  pose:
+    position:
+      x: 0.01613565720617771
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_31
+  pose:
+    position:
+      x: 0.2018970102071762
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_32
+  pose:
+    position:
+      x: 0.16577674448490143
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_33
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_34
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_35
+  pose:
+    position:
+      x: 0.02645573392510414
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_36
+  pose:
+    position:
+      x: 0.03677580878138542
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_37
+  pose:
+    position:
+      x: -0.12963640689849854
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_38
+  pose:
+    position:
+      x: -0.05739587917923927
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_39
+  pose:
+    position:
+      x: -0.05739587917923927
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_40
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_41
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_42
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_43
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_44
+  pose:
+    position:
+      x: -0.2276771068572998
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_45
+  pose:
+    position:
+      x: -0.2276771068572998
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_46
+  pose:
+    position:
+      x: -0.2276771068572998
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_47
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_48
+  pose:
+    position:
+      x: -0.08319607377052307
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_49
+  pose:
+    position:
+      x: -0.08319607377052307
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_50
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_51
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_52
+  pose:
+    position:
+      x: -0.4289185702800751
+      y: 0.9294350147247314
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_53
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_54
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_55
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_56
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_57
+  pose:
+    position:
+      x: -0.06255591660737991
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_58
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_59
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_60
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_61
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_62
+  pose:
+    position:
+      x: 0.03677580878138542
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_63
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_64
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_65
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_66
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_67
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_68
+  pose:
+    position:
+      x: 0.005815582815557718
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_69
+  pose:
+    position:
+      x: 0.005815582815557718
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_70
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_71
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_72
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_73
+  pose:
+    position:
+      x: 0.1760968267917633
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_74
+  pose:
+    position:
+      x: 0.005815582815557718
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_75
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_76
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_77
+  pose:
+    position:
+      x: 0.04193584620952606
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_78
+  pose:
+    position:
+      x: 0.08321613818407059
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_79
+  pose:
+    position:
+      x: 0.08321613818407059
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_80
+  pose:
+    position:
+      x: 0.3308979272842407
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_81
+  pose:
+    position:
+      x: 0.3308979272842407
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_82
+  pose:
+    position:
+      x: 0.2276971936225891
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_83
+  pose:
+    position:
+      x: 0.39797842502593994
+      y: 0.8751083612442017
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_84
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_85
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_86
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_87
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_88
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_89
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_90
+  pose:
+    position:
+      x: -0.21735703945159912
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_91
+  pose:
+    position:
+      x: -0.21219700574874878
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_92
+  pose:
+    position:
+      x: -0.07803602516651154
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_93
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_94
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_95
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_96
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_97
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_98
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_99
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_100
+  pose:
+    position:
+      x: 0.24833732843399048
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_101
+  pose:
+    position:
+      x: -0.1244763657450676
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_102
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_103
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_104
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_105
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_106
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_107
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_108
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_109
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_110
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_111
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_112
+  pose:
+    position:
+      x: -0.18639682233333588
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_113
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_114
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_115
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_116
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_117
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_118
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_119
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_120
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_121
+  pose:
+    position:
+      x: -0.04191576689481735
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_122
+  pose:
+    position:
+      x: 0.2276971936225891
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_123
+  pose:
+    position:
+      x: 0.2276971936225891
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_124
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_125
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_126
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_127
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_128
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_129
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_130
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_131
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_132
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_133
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_134
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_135
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_136
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_137
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_138
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_139
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_140
+  pose:
+    position:
+      x: -0.08835610002279282
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_141
+  pose:
+    position:
+      x: -0.08835610002279282
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_142
+  pose:
+    position:
+      x: 0.24317729473114014
+      y: 0.30114737153053284
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_143
+  pose:
+    position:
+      x: 0.16577674448490143
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_144
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_145
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_146
+  pose:
+    position:
+      x: 0.2741375267505646
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_147
+  pose:
+    position:
+      x: 0.11417636275291443
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_148
+  pose:
+    position:
+      x: 0.10901632905006409
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_149
+  pose:
+    position:
+      x: 0.10385629534721375
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_150
+  pose:
+    position:
+      x: 0.18125684559345245
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_151
+  pose:
+    position:
+      x: 0.18125684559345245
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_152
+  pose:
+    position:
+      x: 0.1760968267917633
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_153
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_154
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_155
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_156
+  pose:
+    position:
+      x: 0.010975619778037071
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_157
+  pose:
+    position:
+      x: 0.010975619778037071
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_158
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_159
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_160
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_161
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_162
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_163
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_164
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_165
+  pose:
+    position:
+      x: -0.02127561718225479
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_166
+  pose:
+    position:
+      x: -0.02127561718225479
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_167
+  pose:
+    position:
+      x: -0.06771595031023026
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_168
+  pose:
+    position:
+      x: 0.07805610448122025
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_169
+  pose:
+    position:
+      x: 0.08837617933750153
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_170
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_171
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_172
+  pose:
+    position:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 1
+  frame_id: map
+- name: waypoint_173
+  pose:
+    position:
+      x: 0.02645573392510414
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_174
+  pose:
+    position:
+      x: 0.02645573392510414
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_175
+  pose:
+    position:
+      x: 0.02645573392510414
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_176
+  pose:
+    position:
+      x: 0.10385629534721375
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_177
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_178
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_179
+  pose:
+    position:
+      x: -0.15543659031391144
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_180
+  pose:
+    position:
+      x: -0.14511650800704956
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_181
+  pose:
+    position:
+      x: -0.13995647430419922
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_182
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_183
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_184
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_185
+  pose:
+    position:
+      x: -0.06255591660737991
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_186
+  pose:
+    position:
+      x: -0.06255591660737991
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_187
+  pose:
+    position:
+      x: -0.06255591660737991
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_188
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_189
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_190
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_191
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_192
+  pose:
+    position:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map
+- name: waypoint_193
+  pose:
+    position:
+      x: 0.0
+      y: 0.3333333432674408
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  action: 0
+  frame_id: map

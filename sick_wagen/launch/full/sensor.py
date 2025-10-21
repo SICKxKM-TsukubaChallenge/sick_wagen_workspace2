@@ -161,19 +161,29 @@ def generate_launch_description():
             respawn_delay=2,
             remappings = [
                 ('/lidar_1/scan', '/tim_scans/tim_scan_L'), 
-                ('/lidar_2/scan', '/tim_scans/tim_scan_R')
+                ('/lidar_2/scan', '/tim_scans/tim_scan_R'),
+                ('/scan', '/cloud_in'),
             ],
         )
     
-    cloud_merge_node = Node(
-            package='cloud_merge',   # パッケージ名
-            executable='cloud_merge_node',  # 実行するノードの名前
-            name='cloud_merge_node',  # ノード名
-            output='screen',          # 標準出力をスクリーンに表示
+    pointcloud_to_laserscan_node = launch_ros.actions.Node(
+            package='pointcloud_to_laserscan',
+            executable='pointcloud_to_laserscan_node',
+            name='laser_scan_to_pointcloud_node',
+            output='screen',
             respawn=True,
             respawn_delay=2,
-            parameters=[config_cloud_merge],
-        )
+    )
+    
+    # cloud_merge_node = Node(
+    #         package='cloud_merge',   # パッケージ名
+    #         executable='cloud_merge_node',  # 実行するノードの名前
+    #         name='cloud_merge_node',  # ノード名
+    #         output='screen',          # 標準出力をスクリーンに表示
+    #         respawn=True,
+    #         respawn_delay=2,
+    #         parameters=[config_cloud_merge],
+    #     )
 
     imu_node = Node(
         package='witmotion_ros',
@@ -184,13 +194,18 @@ def generate_launch_description():
         respawn=True,
     )
 
+    whill_params_path = os.path.join(
+        get_package_share_directory("sick_wagen"),
+        "config/whill",
+        "whill_params.yaml"
+    )
     whill_node = Node(
         package="ros2_whill",
         executable="ros2_whill",
         namespace="whill",
         output="screen",
         respawn=True,
-        parameters=[os.path.join(pkg_dir, "config/whill", "whill_params.yaml")],
+        parameters=[whill_params_path],
     )
 
     joy_node = Node(
@@ -228,10 +243,10 @@ def generate_launch_description():
 
     # ld.add_action(rviz_node)
     ld.add_action(multiscan_node)
-    ld.add_action(cloud_merge_node)
+    ld.add_action(laser_merge_node)
+    ld.add_action(pointcloud_to_laserscan_node)
     ld.add_action(imu_node)
     ld.add_action(tim_R_node)
     ld.add_action(tim_L_node)
-    ld.add_action(laser_merge_node)
     
     return ld

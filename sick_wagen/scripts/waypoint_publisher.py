@@ -10,19 +10,24 @@ import glob
 
 
 class WaypointPublisher(Node):
-    def __init__(self):
+    def __init__(self, waypoint_file):
         super().__init__('waypoint_publisher')
         self.publisher_ = self.create_publisher(PoseArray, 'waypoints', 10)
         self.timer = self.create_timer(1.0, self.timer_callback)
-        
-        # データディレクトリのパス
-        self.data_dir = os.path.join(os.path.dirname(__file__), '../data')
-        
-        # 最新のウェイポイントファイルを読み込み
-        self.waypoints = self.load_latest_waypoints()
-        
+
+        # ファイルの拡張子で判定
+        if waypoint_file.endswith('.yaml'):
+            self.waypoints = self.load_waypoints_from_yaml(waypoint_file)
+            self.get_logger().info(f"Loaded waypoints from YAML: {os.path.basename(waypoint_file)}")
+        elif waypoint_file.endswith('.csv'):
+            self.waypoints = self.load_waypoints_from_csv(waypoint_file)
+            self.get_logger().info(f"Loaded waypoints from CSV: {os.path.basename(waypoint_file)}")
+        else:
+            self.get_logger().error(f"Unsupported file type: {waypoint_file}")
+            self.waypoints = []
+
         if not self.waypoints:
-            self.get_logger().warning("No waypoints loaded. Please create waypoints first using waypoint_saver.")
+            self.get_logger().warning("No waypoints loaded. Please check the specified file.")
 
     def load_latest_waypoints(self):
         """最新のウェイポイントファイル（YAML優先、CSV fallback）を読み込み"""
@@ -165,7 +170,10 @@ class WaypointPublisher(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    node = WaypointPublisher()
+    # ここでdataフォルダ下のファイル名を指定
+    data_dir = os.path.join(os.path.dirname(__file__), '../data')
+    waypoint_file = os.path.join(data_dir, '2025-10-21_1446_goal_waypoints.yaml') 
+    node = WaypointPublisher(waypoint_file)
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
