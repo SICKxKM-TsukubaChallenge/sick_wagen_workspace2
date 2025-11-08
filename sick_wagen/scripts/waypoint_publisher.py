@@ -169,10 +169,30 @@ class WaypointPublisher(Node):
                              f'(Continue: {continue_count}, Pause: {pause_count})')
 
 def main(args=None):
-    rclpy.init(args=args)
-    # ここでdataフォルダ下のファイル名を指定
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Publish waypoints from a specified YAML/CSV file in data/')
+    parser.add_argument('--file', '-f', dest='file', help='Full path to waypoint YAML or CSV file')
+    parser.add_argument('--name', '-n', dest='name', help='Filename under data/ to use (e.g. 2025-11-08_1051_waypoints.yaml)')
+    parsed = parser.parse_args()
+
+    # precedence: --file fullpath > --name (in data dir) > env WAYPOINT_FILE > hardcoded default
     data_dir = os.path.join(os.path.dirname(__file__), '../data')
-    waypoint_file = os.path.join(data_dir, '2025-10-21_1446_goal_waypoints.yaml') 
+    env_file = os.environ.get('WAYPOINT_FILE', '').strip()
+    if parsed.file:
+        waypoint_file = parsed.file
+    elif parsed.name:
+        waypoint_file = os.path.join(data_dir, parsed.name)
+    elif env_file:
+        # allow either full path or filename
+        if os.path.isabs(env_file):
+            waypoint_file = env_file
+        else:
+            waypoint_file = os.path.join(data_dir, env_file)
+    else:
+        waypoint_file = os.path.join(data_dir, '2025-10-21_1446_goal_waypoints.yaml')
+
+    rclpy.init(args=args)
     node = WaypointPublisher(waypoint_file)
     try:
         rclpy.spin(node)

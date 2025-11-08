@@ -10,7 +10,7 @@ def generate_launch_description():
     sick_wagen_dir = get_package_share_directory('sick_wagen')
 
     # PGM map (OccupancyGrid)
-    map_yaml = os.path.join('/home/sick/ros2_ws/maps', 'white.yaml')
+    map_yaml = os.path.join('/home/sick/ros2_ws/maps', 'all.yaml')
     map_server = Node(
         package='nav2_map_server',
         executable='map_server',
