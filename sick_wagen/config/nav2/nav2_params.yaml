@@ -192,10 +192,10 @@ global_costmap:
       robot_radius: 0.95
       resolution: 0.2
       track_unknown_space: true
-      width: 50
-      height: 50
-      origin_x: -25.0
-      origin_y: -25.0
+      width: 3750
+      height: 2500
+      origin_x: -180.0
+      origin_y: -320.0
       plugins: ["static_layer"]
       # plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       # obstacle_layer:

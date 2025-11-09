@@ -78,12 +78,17 @@ class WagenController(Node):
         LB_btn  = msg.buttons[4] if len(msg.buttons) > 4 else 0
         START_btn = msg.buttons[9] if len(msg.buttons) > 9 else 0  # STARTボタン（インデックス9）
 
+        # ---- デッドバンド処理（ここでゼロ化しておくと update_loop() の判定も安定）----
+        if abs(RStickX) <= self.neutral_deadband:
+            RStickX = 0.0
+        if abs(RStickY) <= self.neutral_deadband:
+            RStickY = 0.0
+
         # ---- 起動直後のロックアウト判定 ----
         t = (self.get_clock().now() - self.start_time).nanoseconds * 1e-9
         if not self.locked and t <= self.startup_guard_sec:
             # 非ニュートラル入力（どちらかの軸がデッドバンド外 or 何かボタン押下）が来たらロック
-            non_neutral = (abs(RStickX) > self.neutral_deadband) or (abs(RStickY) > self.neutral_deadband) \
-                          or any(b != 0 for b in msg.buttons)
+            non_neutral = (RStickX != 0.0) or (RStickY != 0.0) or any(b != 0 for b in msg.buttons)
             if non_neutral:
                 self.locked = True
 
@@ -171,6 +176,5 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
-
 
 
