@@ -40,6 +40,13 @@ def generate_launch_description():
         'imu',
         'witmotion.yml'
     )
+
+    tim_filter_config = os.path.join(
+        get_package_share_directory('sick_wagen'),
+        'config',
+        'laser_filters',
+        'tim_range_filter.yaml'
+    )
         
     pkg_dir = get_package_share_directory("sick_wagen")    
     
@@ -111,6 +118,7 @@ def generate_launch_description():
                 {"use_binary_protocol":True},
                 {"range_max":100.0},
                 {"range_min":0.1},
+                {"range_filter_handling": 1},
                 {"intensity":True},
                 {"hostname":"TIM_RIGHT_IP"},
                 {"cloud_topic":"tim_cloud_R"},
@@ -138,6 +146,7 @@ def generate_launch_description():
                 {"use_binary_protocol":True},
                 {"range_max":100.0},
                 {"range_min":0.1},
+                {"range_filter_handling": 1},
                 {"intensity":True},
                 {"hostname":"TIM_LEFT_IP"},
                 {"cloud_topic":"tim_cloud_L"},
@@ -152,6 +161,34 @@ def generate_launch_description():
             ],
             remappings = [('/sick_tim_L/sick_tim_5xx/scan','/tim_scans/tim_scan_L')]
         )
+
+    tim_L_filter_node = Node(
+        package='laser_filters',
+        executable='scan_to_scan_filter_chain',
+        name='tim_L_filter',
+        output='screen',
+        respawn=True,
+        respawn_delay=2,
+        parameters=[tim_filter_config],
+        remappings=[
+            ('scan', '/tim_scans/tim_scan_L'),
+            ('scan_filtered', '/tim_scans/tim_scan_L_filtered'),
+        ],
+    )
+
+    tim_R_filter_node = Node(
+        package='laser_filters',
+        executable='scan_to_scan_filter_chain',
+        name='tim_R_filter',
+        output='screen',
+        respawn=True,
+        respawn_delay=2,
+        parameters=[tim_filter_config],
+        remappings=[
+            ('scan', '/tim_scans/tim_scan_R'),
+            ('scan_filtered', '/tim_scans/tim_scan_R_filtered'),
+        ],
+    )
         
     
     laser_merge_node = launch_ros.actions.Node(
@@ -162,9 +199,9 @@ def generate_launch_description():
             respawn=True,
             respawn_delay=2,
             remappings = [
-                ('/lidar_1/scan', '/tim_scans/tim_scan_L'), 
-                ('/lidar_2/scan', '/tim_scans/tim_scan_R'),
-                ('/scan', '/cloud_in'),
+                ('/lidar_1/scan', '/tim_scans/tim_scan_L_filtered'), 
+                ('/lidar_2/scan', '/tim_scans/tim_scan_R_filtered'),
+                # ('/scan', '/cloud_in'),
             ],
         )
     
@@ -245,6 +282,8 @@ def generate_launch_description():
 
     # ld.add_action(rviz_node)
     ld.add_action(multiscan_node)
+    ld.add_action(tim_L_filter_node)
+    ld.add_action(tim_R_filter_node)
     ld.add_action(laser_merge_node)
     ld.add_action(pointcloud_to_laserscan_node)
     ld.add_action(imu_node)
