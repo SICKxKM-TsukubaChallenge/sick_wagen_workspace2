@@ -1,187 +1,203 @@
-#! /usr/bin/env python3
-# Copyright 2021 Samsung Research America
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+#!/usr/bin/env python3
+import argparse
+import os
+from dataclasses import dataclass
+from typing import List
 
-from geometry_msgs.msg import PoseStamped, Pose
-from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 import rclpy
-from rclpy.duration import Duration
+from geometry_msgs.msg import Pose, PoseStamped
 import yaml
 
-"""
-Basic navigation demo to go to poses.
-"""
-def load_waypoints_from_yaml(yaml_path):
-    """YAMLファイルからウェイポイントを読み込み"""
-    waypoints = []
+from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
+from rclpy.node import Node
+from sensor_msgs.msg import Joy
+
+DEFAULT_YAML_PATH = os.path.join(os.path.dirname(__file__), '../data/2025-11-08_1051_waypoints.yaml')
+
+@dataclass
+class Waypoint:
+    pose: Pose
+    action: int = 1  # 1: auto-continue, 0: wait for button
+    frame_id: str = 'map'
+    name: str = ''
+
+
+def load_waypoints_from_yaml(yaml_path: str) -> List[Waypoint]:
+    """Load Pose + action pairs from a Nav2-style waypoint YAML file."""
+    waypoints: List[Waypoint] = []
     try:
         with open(yaml_path, 'r') as file:
-            data = yaml.safe_load(file)
-            for item in data.get('waypoints', []):
-                pose = Pose()
-                # older formats may nest under 'pose' key
-                pos = item.get('pose', {}).get('position', item.get('position', {}))
-                ori = item.get('pose', {}).get('orientation', item.get('orientation', {}))
-                pose.position.x = pos.get('x', 0.0)
-                pose.position.y = pos.get('y', 0.0)
-                pose.position.z = pos.get('z', 0.0)
-                pose.orientation.x = ori.get('x', 0.0)
-                pose.orientation.y = ori.get('y', 0.0)
-                pose.orientation.z = ori.get('z', 0.0)
-                pose.orientation.w = ori.get('w', 1.0)
-                waypoints.append(pose)
-    except Exception as e:
-        print(f"Failed to load waypoints from YAML: {e}")
+            data = yaml.safe_load(file) or {}
+    except FileNotFoundError:
+        print(f"YAML file not found: {yaml_path}")
+        return waypoints
+    except Exception as exc:  # noqa: BLE001
+        print(f"Failed to load waypoints from YAML: {exc}")
+        return waypoints
+
+    for idx, item in enumerate(data.get('waypoints', [])):
+        pose = Pose()
+        pose_data = item.get('pose', item)
+        pos = pose_data.get('position', {})
+        ori = pose_data.get('orientation', {})
+        pose.position.x = float(pos.get('x', 0.0))
+        pose.position.y = float(pos.get('y', 0.0))
+        pose.position.z = float(pos.get('z', 0.0))
+        pose.orientation.x = float(ori.get('x', 0.0))
+        pose.orientation.y = float(ori.get('y', 0.0))
+        pose.orientation.z = float(ori.get('z', 0.0))
+        pose.orientation.w = float(ori.get('w', 1.0))
+
+        raw_action = item.get('action', 1)
+        try:
+            action_val = int(raw_action)
+        except (TypeError, ValueError):
+            action_val = 1
+        action = 0 if action_val == 0 else 1
+
+        frame_id = item.get('frame_id', 'map')
+        name = item.get('name', f'waypoint_{idx + 1}')
+        waypoints.append(Waypoint(pose=pose, action=action, frame_id=frame_id, name=name))
+
     return waypoints
 
+
+class ButtonWaiter(Node):
+    """Joy listener that detects a rising edge after reset."""
+
+    def __init__(self, topic: str, button_indices: List[int]) -> None:
+        super().__init__('waypoint_button_waiter')
+        self._topic = topic
+        self._button_indices = button_indices
+        self._waiting = False
+        self._pressed_after_reset = False
+        self._armed_for_rise = {idx: False for idx in self._button_indices}
+        self._last_raw = {idx: 0 for idx in self._button_indices}
+        self.create_subscription(Joy, topic, self._joy_callback, 10)
+
+    def _extract_button(self, msg: Joy, idx: int) -> int:
+        if len(msg.buttons) > idx:
+            return msg.buttons[idx]
+        return 0
+
+    def _joy_callback(self, msg: Joy) -> None:
+        if not self._waiting:
+            for idx in self._button_indices:
+                self._last_raw[idx] = self._extract_button(msg, idx)
+            return
+
+        for idx in self._button_indices:
+            raw = self._extract_button(msg, idx)
+            if raw == 0:
+                self._armed_for_rise[idx] = True
+            if self._armed_for_rise[idx] and raw == 1 and self._last_raw[idx] == 0:
+                self._pressed_after_reset = True
+                self._waiting = False
+                break
+            self._last_raw[idx] = raw
+
+    def reset_after_arrival(self) -> None:
+        self._waiting = True
+        self._pressed_after_reset = False
+        self._armed_for_rise = {idx: False for idx in self._button_indices}
+        self._last_raw = {idx: 0 for idx in self._button_indices}
+
+    @property
+    def pressed_since_reset(self) -> bool:
+        return self._pressed_after_reset
+
+    def wait_for_press(self, timeout_sec: float = 0.1) -> None:
+        while rclpy.ok() and not self._pressed_after_reset:
+            rclpy.spin_once(self, timeout_sec=timeout_sec)
+
+    def stop_waiting(self) -> None:
+        self._waiting = False
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser(description='Waypoint navigator with per-action button gating.')
+    parser.add_argument('yaml_path', nargs='?', help='Path to waypoint YAML file')
+    parser.add_argument(
+        '--yaml',
+        dest='yaml_override',
+        help='Path to waypoint YAML file (same as positional; use this in launch files, etc.)',
+    )
+    parser.add_argument('--button-topic', default='/joy', help='Joy topic for continue/pause buttons (default: /joy)')
+    parser.add_argument(
+        '--button-indices',
+        nargs='+',
+        type=int,
+        default=[1, 2],
+        help='Button indices that are accepted for continue (default: 1 2, same as waypoint saver)',
+    )
+    args = parser.parse_args()
+
+    yaml_path = args.yaml_override or args.yaml_path or DEFAULT_YAML_PATH
+    if not yaml_path:
+        print('No YAML file provided. Set DEFAULT_YAML_PATH in this file or use positional arg / --yaml to set the waypoint file.')
+        return
+
     rclpy.init()
     navigator = BasicNavigator()
-    # load waypoint from yaml in arg
-    import sys
-    if len(sys.argv) > 1:
-        yaml_path = sys.argv[1]
-        waypoints = load_waypoints_from_yaml(yaml_path)
-        print(f"Loaded {len(waypoints)} waypoints from {yaml_path}")
-        print(f"Total waypoints: {len(waypoints)}")
-    else:
-        print("No YAML file provided. Using default waypoints.")
+    button_waiter = ButtonWaiter(topic=args.button_topic, button_indices=args.button_indices)
 
+    waypoints = load_waypoints_from_yaml(yaml_path)
     if not waypoints:
-      print("No waypoints loaded. Exiting.")
-      return
+        print('No waypoints loaded. Exiting.')
+        button_waiter.destroy_node()
+        rclpy.shutdown()
+        return
 
-    # Set first waypoint as initial pose
     initial_pose = PoseStamped()
-    initial_pose.header.frame_id = 'map'
+    initial_pose.header.frame_id = waypoints[0].frame_id
     initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-    initial_pose.pose = waypoints[0]
-
+    initial_pose.pose = waypoints[0].pose
     navigator.setInitialPose(initial_pose)
-
-    # Activate navigation, if not autostarted. This should be called after setInitialPose()
-    # or this will initialize at the origin of the map and update the costmap with bogus readings.
-    # If autostart, you should `waitUntilNav2Active()` instead.
-    # navigator.lifecycleStartup()
-
-    # Wait for navigation to fully activate, since autostarting nav2
     navigator.waitUntilNav2Active()
 
-    # If desired, you can change or load the map as well
-    # navigator.changeMap('/path/to/map.yaml')
+    total = len(waypoints)
+    for idx, waypoint in enumerate(waypoints):
+        goal = PoseStamped()
+        goal.header.frame_id = waypoint.frame_id
+        goal.header.stamp = navigator.get_clock().now().to_msg()
+        goal.pose = waypoint.pose
 
-    # You may use the navigator to clear or obtain costmaps
-    # navigator.clearAllCostmaps()  # also have clearLocalCostmap() and clearGlobalCostmap()
-    # global_costmap = navigator.getGlobalCostmap()
-    # local_costmap = navigator.getLocalCostmap()
+        navigator.goToPose(goal)
+        mode = 'wait-button' if waypoint.action == 0 else 'auto'
+        print(f"Navigating to waypoint {idx + 1}/{total} ({mode})")
 
-    # # set our demo's goal poses to follow
-    # goal_poses = []
-    # goal_pose1 = PoseStamped()
-    # goal_pose1.header.frame_id = 'map'
-    # goal_pose1.header.stamp = navigator.get_clock().now().to_msg()
-    # goal_pose1.pose.position.x = 10.15
-    # goal_pose1.pose.position.y = -0.77
-    # goal_pose1.pose.orientation.w = 1.0
-    # goal_pose1.pose.orientation.z = 0.0
-    # goal_poses.append(goal_pose1)
+        while not navigator.isTaskComplete():
+            rclpy.spin_once(button_waiter, timeout_sec=0.1)
 
-    # # additional goals can be appended
-    # goal_pose2 = PoseStamped()
-    # goal_pose2.header.frame_id = 'map'
-    # goal_pose2.header.stamp = navigator.get_clock().now().to_msg()
-    # goal_pose2.pose.position.x = 17.86
-    # goal_pose2.pose.position.y = -0.77
-    # goal_pose2.pose.orientation.w = 1.0
-    # goal_pose2.pose.orientation.z = 0.0
-    # goal_poses.append(goal_pose2)
-    # goal_pose3 = PoseStamped()
-    # goal_pose3.header.frame_id = 'map'
-    # goal_pose3.header.stamp = navigator.get_clock().now().to_msg()
-    # goal_pose3.pose.position.x = 21.58
-    # goal_pose3.pose.position.y = -3.5
-    # goal_pose3.pose.orientation.w = 1.0
-    # goal_pose3.pose.orientation.z = 0.0
-    # goal_poses.append(goal_pose3)
+        result = navigator.getResult()
+        if result == TaskResult.SUCCEEDED:
+            print(f"Reached waypoint {idx + 1}/{total}")
+        elif result == TaskResult.CANCELED:
+            print('Navigation canceled. Stopping route.')
+            break
+        elif result == TaskResult.FAILED:
+            try:
+                error_code, error_msg = navigator.getTaskError()
+                print(f"Navigation failed: {error_code}: {error_msg}")
+            except Exception:
+                print('Navigation failed.')
+            break
+        else:
+            print(f"Navigation returned unexpected status: {result}")
+            break
 
-    # sanity check a valid path exists
-    # path = navigator.getPath(initial_pose, goal_pose1)
-
-    # convert waypoints to PoseStamped list
-    goal_poses = []
-    for wp in waypoints:
-        pose_stamped = PoseStamped()
-        pose_stamped.header.frame_id = 'map'
-        pose_stamped.header.stamp = navigator.get_clock().now().to_msg()
-        pose_stamped.pose = wp
-        goal_poses.append(pose_stamped)
-
-    nav_start = navigator.get_clock().now()
-    follow_waypoints_task = navigator.followWaypoints(goal_poses)
-
-    i = 0
-    while not navigator.isTaskComplete(task=follow_waypoints_task):
-        ################################################
-        #
-        # Implement some code here for your application!
-        #
-        ################################################
-
-        # Do something with the feedback
-        i = i + 1
-        feedback = navigator.getFeedback(task=follow_waypoints_task)
-        # if feedback and i % 5 == 0:
-            # print(
-            #     'Executing current waypoint: '
-            #     + str(feedback.current_waypoint + 1)
-            #     + '/'
-            #     + str(len(goal_poses))
-            # )
-            # now = navigator.get_clock().now()
-
-            # # Some navigation timeout to demo cancellation
-            # if now - nav_start > Duration(seconds=600.0):
-            #     navigator.cancelTask()
-
-            # # Some follow waypoints request change to demo preemption
-            # if now - nav_start > Duration(seconds=35.0):
-            #     goal_pose4 = PoseStamped()
-            #     goal_pose4.header.frame_id = 'map'
-            #     goal_pose4.header.stamp = now.to_msg()
-            #     goal_pose4.pose.position.x = 0.0
-            #     goal_pose4.pose.position.y = 0.0
-            #     goal_pose4.pose.orientation.w = 1.0
-            #     goal_pose4.pose.orientation.z = 0.0
-            #     goal_poses = [goal_pose4]
-            #     nav_start = now
-            #     follow_waypoints_task = navigator.followWaypoints(goal_poses)
-
-    # Do something depending on the return code
-    result = navigator.getResult()
-    if result == TaskResult.SUCCEEDED:
-        print('Goal succeeded!')
-    elif result == TaskResult.CANCELED:
-        print('Goal was canceled!')
-    elif result == TaskResult.FAILED:
-        (error_code, error_msg) = navigator.getTaskError()
-        print('Goal failed!{error_code}:{error_msg}')
-    else:
-        print('Goal has an invalid return status!')
+        if waypoint.action == 0:
+            button_waiter.reset_after_arrival()
+            print(
+                f"Waiting for buttons {args.button_indices} on {args.button_topic} before continuing..."
+            )
+            button_waiter.wait_for_press()
+            button_waiter.stop_waiting()
+            print('Button press detected. Proceeding to next waypoint.')
 
     navigator.lifecycleShutdown()
-
-    exit(0)
+    button_waiter.destroy_node()
+    rclpy.shutdown()
 
 
 if __name__ == '__main__':
