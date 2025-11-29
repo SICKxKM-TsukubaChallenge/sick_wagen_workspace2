@@ -28,6 +28,12 @@ def generate_launch_description():
         ]
     )
 
+    # Nav2 起動を数秒遅らせて localization が map->odom TF を先に出せるようにする
+    delayed_nav2_launch = TimerAction(
+        period=4.0,
+        actions=[nav2_launch]
+    )
+
     sensor_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -48,7 +54,7 @@ def generate_launch_description():
 
     # localization_launchを遅延して起動
     delayed_localization_launch = TimerAction(
-        period=3.0,
+        period=2.0,
         actions=[localization_launch]
     )
 
@@ -90,5 +96,5 @@ def generate_launch_description():
         rviz_node,
         sensor_launch,
         delayed_localization_launch,
-        nav2_launch,
+        delayed_nav2_launch,
     ])

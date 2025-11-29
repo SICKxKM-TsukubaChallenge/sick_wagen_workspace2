@@ -28,8 +28,8 @@
     # qos_overrides./parameter_events.publisher.durability: volatile
     # qos_overrides./parameter_events.publisher.history: keep_last
     qos_overrides./parameter_events.publisher.reliability: best_effort
-    scanTopic1: /tim_scans/tim_scan_L
-    scanTopic2: /tim_scans/tim_scan_R
+    scanTopic1: /tim_scans/tim_scan_L_filtered
+    scanTopic2: /tim_scans/tim_scan_R_filtered
     show1: true
     show2: true
     use_sim_time: false
