@@ -8,6 +8,8 @@ Panels:
         - /Status1
         - /PointCloud21
         - /PointCloud22
+        - /RobotModel1
+        - /RobotModel1/Status1
         - /RobotModel1/Description Topic1
         - /PointCloud23/Topic1
         - /PoseArray1
@@ -74,7 +76,7 @@ Visualization Manager:
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.029999999329447746
+      Size (m): 0.10000000149011612
       Style: Flat Squares
       Topic:
         Depth: 5
@@ -418,7 +420,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 24.0242977142334
+      Distance: 35.72929763793945
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -433,10 +435,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.4847960472106934
+      Pitch: 1.469796061515808
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.718580722808838
+      Yaw: 4.588581562042236
     Saved: ~
 Window Geometry:
   Displays:

@@ -277,7 +277,7 @@ def generate_launch_description():
                 remappings=remappings +
                            [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel_pre_collision')]),
             ComposableNode(
-                package='nav2_collision_monitor',
+                package='nav2_collision_    r',
                 plugin='nav2_collision_monitor::CollisionMonitor',
                 name='collision_monitor',
                 parameters=[configured_params],
