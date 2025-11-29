@@ -75,7 +75,7 @@ class WagenController(Node):
         # 軸割り当ては環境に合わせて調整してください
         RStickX = msg.axes[2]
         RStickY = msg.axes[3]
-        LB_btn  = msg.buttons[4] if len(msg.buttons) > 4 else 0
+        LB_btn  = msg.buttons[6] if len(msg.buttons) > 6 else 0
         START_btn = msg.buttons[9] if len(msg.buttons) > 9 else 0  # STARTボタン（インデックス9）
 
         # ---- デッドバンド処理（ここでゼロ化しておくと update_loop() の判定も安定）----

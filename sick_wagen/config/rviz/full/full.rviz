@@ -9,10 +9,10 @@ Panels:
         - /PointCloud21
         - /PointCloud22
         - /RobotModel1
-        - /RobotModel1/Status1
         - /RobotModel1/Description Topic1
         - /PointCloud23/Topic1
         - /PoseArray1
+        - /Pose1
       Splitter Ratio: 0.5
     Tree Height: 719
   - Class: rviz_common/Selection
@@ -91,8 +91,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 2.9397621154785156
-        Min Value: -0.15263605117797852
+        Max Value: 8.334539413452148
+        Min Value: -0.64702308177948
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -374,6 +374,26 @@ Visualization Manager:
         Value: /local_costmap/costmap_updates
       Use Timestamp: false
       Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz_default_plugins/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 1
+      Head Radius: 1
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 1
+      Shape: Arrow
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /goal_pose
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -420,25 +440,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 35.72929763793945
+      Distance: 66.3937759399414
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 2.7980265617370605
-        Y: -2.188201904296875
-        Z: -1.0938920974731445
+        X: -37.41029739379883
+        Y: 28.94813346862793
+        Z: -2.2940688133239746
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.469796061515808
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.588581562042236
+      Yaw: 4.613587379455566
     Saved: ~
 Window Geometry:
   Displays:

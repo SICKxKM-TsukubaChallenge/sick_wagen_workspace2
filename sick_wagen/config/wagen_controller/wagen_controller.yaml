@@ -1,8 +1,8 @@
 wagen_controller:
   ros__parameters:
-    linearGain: 0.2
+    linearGain: 0.8
     angularGain: 0.8
     speedUpRate: 5.0
     
-    maxLinear: 0.6
+    maxLinear: 0.8
     maxAngular: 0.8

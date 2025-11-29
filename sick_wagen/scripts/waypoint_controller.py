@@ -12,7 +12,7 @@ from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
 
-DEFAULT_YAML_PATH = os.path.join(os.path.dirname(__file__), '../data/2025-11-08_1051_waypoints.yaml')
+DEFAULT_YAML_PATH = os.path.join(os.path.dirname(__file__), '../data/2025-11-29_1152_waypoints.yaml')
 
 @dataclass
 class Waypoint:
@@ -153,7 +153,7 @@ def main() -> None:
     initial_pose.header.stamp = navigator.get_clock().now().to_msg()
     initial_pose.pose = waypoints[0].pose
     navigator.setInitialPose(initial_pose)
-    navigator.waitUntilNav2Active()
+    navigator.waitUntilNav2Active(localizer='lidar_localization')
 
     total = len(waypoints)
     for idx, waypoint in enumerate(waypoints):
@@ -186,7 +186,7 @@ def main() -> None:
             print(f"Navigation returned unexpected status: {result}")
             break
 
-        if waypoint.action == 0:
+        if waypoint.action == 1:
             button_waiter.reset_after_arrival()
             print(
                 f"Waiting for buttons {args.button_indices} on {args.button_topic} before continuing..."
