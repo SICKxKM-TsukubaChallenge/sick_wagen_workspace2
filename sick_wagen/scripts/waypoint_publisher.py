@@ -190,7 +190,7 @@ def main(args=None):
         else:
             waypoint_file = os.path.join(data_dir, env_file)
     else:
-        waypoint_file = os.path.join(data_dir, '2025-10-21_1446_goal_waypoints.yaml')
+        waypoint_file = os.path.join(data_dir, '2025-11-29_1152_waypoints.yaml')
 
     rclpy.init(args=args)
     node = WaypointPublisher(waypoint_file)
