@@ -277,7 +277,7 @@ def generate_launch_description():
                 remappings=remappings +
                            [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel_pre_collision')]),
             ComposableNode(
-                package='nav2_collision_    r',
+                package='nav2_collision_monitor',
                 plugin='nav2_collision_monitor::CollisionMonitor',
                 name='collision_monitor',
                 parameters=[configured_params],
@@ -289,14 +289,14 @@ def generate_launch_description():
                 parameters=[{'use_sim_time': use_sim_time,
                              'autostart': autostart,
                              'node_names': lifecycle_nodes}]),
-            ComposableNode(
-                package='nav2_lifecycle_manager',
-                plugin='nav2_lifecycle_manager::LifecycleManager',
-                name='lifecycle_manager_localization',
-                parameters=[{'use_sim_time': use_sim_time,
-                             'autostart': autostart,
-                             'node_names': ['map_server']}]
-            ),
+            # ComposableNode(
+            #     package='nav2_lifecycle_manager',
+            #     plugin='nav2_lifecycle_manager::LifecycleManager',
+            #     name='lifecycle_manager_localization',
+            #     parameters=[{'use_sim_time': use_sim_time,
+            #                  'autostart': autostart,
+            #                  'node_names': ['map_server']}]
+            # ),
         ],
     )
 
