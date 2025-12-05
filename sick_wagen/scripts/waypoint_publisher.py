@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 
-import rclpy
-from rclpy.node import Node
-from geometry_msgs.msg import PoseArray, Pose
 import csv
 import yaml
 import os
 import glob
+from geometry_msgs.msg import Pose, PoseArray
+from visualization_msgs.msg import Marker, MarkerArray
+
+import rclpy
+from rclpy.node import Node
 
 
 class WaypointPublisher(Node):
     def __init__(self, waypoint_file):
         super().__init__('waypoint_publisher')
         self.publisher_ = self.create_publisher(PoseArray, 'waypoints', 10)
+        self.marker_pub = self.create_publisher(MarkerArray, 'waypoint_markers', 10)
         self.timer = self.create_timer(1.0, self.timer_callback)
 
         # ファイルの拡張子で判定
@@ -147,8 +150,9 @@ class WaypointPublisher(Node):
         
         continue_count = 0
         pause_count = 0
+        markers = MarkerArray()
         
-        for wp in self.waypoints:
+        for idx, wp in enumerate(self.waypoints):
             pose = Pose()
             pose.position.x = wp['x']
             pose.position.y = wp['y']
@@ -158,6 +162,67 @@ class WaypointPublisher(Node):
             pose.orientation.z = wp['qz']
             pose.orientation.w = wp['qw']
             msg.poses.append(pose)
+
+            # Arrow marker for waypoint position (action=0: red, action=1: yellow)
+            arrow_marker = Marker()
+            arrow_marker.header = msg.header
+            arrow_marker.ns = 'waypoint_arrows'
+            arrow_marker.id = idx
+            arrow_marker.type = Marker.ARROW
+            arrow_marker.action = Marker.ADD
+            arrow_marker.pose.position.x = wp['x']
+            arrow_marker.pose.position.y = wp['y']
+            arrow_marker.pose.position.z = wp['z']
+            arrow_marker.pose.orientation.x = wp['qx']
+            arrow_marker.pose.orientation.y = wp['qy']
+            arrow_marker.pose.orientation.z = wp['qz']
+            arrow_marker.pose.orientation.w = wp['qw']
+            arrow_marker.scale.x = 1.0  # arrow length
+            arrow_marker.scale.y = 0.3  # arrow width
+            arrow_marker.scale.z = 0.3  # arrow height
+            arrow_marker.color.a = 1.0
+            
+            # Lifetime設定（永続的に表示）
+            arrow_marker.lifetime.sec = 0
+            arrow_marker.lifetime.nanosec = 0
+            
+            # action=0: continue (赤色), action=1: pause (黄色)
+            if wp['action'] == 1:  # pause
+                arrow_marker.color.r = 1.0
+                arrow_marker.color.g = 1.0
+                arrow_marker.color.b = 0.0
+                self.get_logger().debug(f'Waypoint {idx}: PAUSE (yellow) - action={wp["action"]}, color=(1.0, 1.0, 0.0)')
+            else:  # continue (default)
+                arrow_marker.color.r = 1.0
+                arrow_marker.color.g = 0.0
+                arrow_marker.color.b = 0.0
+                self.get_logger().debug(f'Waypoint {idx}: CONTINUE (red) - action={wp["action"]}, color=(1.0, 0.0, 0.0)')
+            
+            markers.markers.append(arrow_marker)
+
+            # Text marker for waypoint label
+            text_marker = Marker()
+            text_marker.header = msg.header
+            text_marker.ns = 'waypoint_labels'
+            text_marker.id = idx
+            text_marker.type = Marker.TEXT_VIEW_FACING
+            text_marker.action = Marker.ADD
+            text_marker.pose.position.x = wp['x']
+            text_marker.pose.position.y = wp['y']
+            text_marker.pose.position.z = wp['z'] + 0.5  # lift text a bit for visibility
+            text_marker.pose.orientation.w = 1.0
+            text_marker.scale.z = 0.6
+            text_marker.color.a = 1.0
+            text_marker.color.r = 1.0
+            text_marker.color.g = 1.0
+            text_marker.color.b = 1.0  # white text
+            text_marker.text = wp.get('name', f'waypoint_{idx + 1}')
+            
+            # Lifetime設定（永続的に表示）
+            text_marker.lifetime.sec = 0
+            text_marker.lifetime.nanosec = 0
+            
+            markers.markers.append(text_marker)
             
             if wp['action'] == 0:
                 continue_count += 1
@@ -165,8 +230,10 @@ class WaypointPublisher(Node):
                 pause_count += 1
         
         self.publisher_.publish(msg)
+        self.marker_pub.publish(markers)
         self.get_logger().info(f'Published {len(self.waypoints)} waypoints '
                              f'(Continue: {continue_count}, Pause: {pause_count})')
+        self.get_logger().info(f'Published {len(markers.markers)} markers')
 
 def main(args=None):
     import argparse
@@ -190,7 +257,7 @@ def main(args=None):
         else:
             waypoint_file = os.path.join(data_dir, env_file)
     else:
-        waypoint_file = os.path.join(data_dir, '2025-11-29_1152_waypoints.yaml')
+        waypoint_file = os.path.join(data_dir, 'final.yaml')
 
     rclpy.init(args=args)
     node = WaypointPublisher(waypoint_file)
