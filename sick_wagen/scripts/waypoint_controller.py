@@ -213,7 +213,7 @@ def main() -> None:
 
             skipped = False
             forced_success = False
-            close_enter_time: Optional[float] = None
+            # close_enter_time: Optional[float] = None  # Disabled: close-distance based auto-completion
             while not navigator.isTaskComplete():
                 rclpy.spin_once(button_waiter, timeout_sec=0.1)
                 if button_waiter.consume_skip_request():
@@ -221,22 +221,22 @@ def main() -> None:
                     navigator.cancelTask()
                     skipped = True
                     break
-                feedback = navigator.getFeedback()
-                if feedback and feedback.distance_remaining is not None:
-                    distance_remaining = float(feedback.distance_remaining)
-                    if distance_remaining < args.close_distance:
-                        if close_enter_time is None:
-                            close_enter_time = time.time()
-                        elif time.time() - close_enter_time >= args.close_hold_time:
-                            print(
-                                f"Distance under {args.close_distance} m for {args.close_hold_time:.1f}s."
-                                " Forcing completion to avoid circling."
-                            )
-                            navigator.cancelTask()
-                            forced_success = True
-                            break
-                    else:
-                        close_enter_time = None
+                # feedback = navigator.getFeedback()
+                # if feedback and feedback.distance_remaining is not None:
+                #     distance_remaining = float(feedback.distance_remaining)
+                #     if distance_remaining < args.close_distance:
+                #         if close_enter_time is None:
+                #             close_enter_time = time.time()
+                #         elif time.time() - close_enter_time >= args.close_hold_time:
+                #             print(
+                #                 f"Distance under {args.close_distance} m for {args.close_hold_time:.1f}s."
+                #                 " Forcing completion to avoid circling."
+                #             )
+                #             navigator.cancelTask()
+                #             forced_success = True
+                #             break
+                #     else:
+                #         close_enter_time = None
 
             if skipped:
                 while not navigator.isTaskComplete():
