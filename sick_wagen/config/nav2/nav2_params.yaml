@@ -128,15 +128,15 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.4
-      yaw_goal_tolerance: 0.5
+      xy_goal_tolerance: 0.5
+      yaw_goal_tolerance: 1.5
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner" 
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 0.8
+      max_vel_x: 0.7
       max_vel_y: 0.0
       max_vel_theta: 0.8
       min_speed_xy: 0.0
@@ -157,7 +157,7 @@ controller_server:
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.2
-      xy_goal_tolerance: 0.3
+      xy_goal_tolerance: 0.5
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
@@ -188,7 +188,7 @@ local_costmap:
       width: 6
       height: 6
       resolution: 0.1
-      footprint: "[[0.95, 0.45], [0.95, -0.45], [-0.15, -0.45], [-0.15, 0.45]]"
+      footprint: "[[0.90, 0.40], [0.90, -0.40], [-0.15, -0.40], [-0.15, 0.40]]"
       # robot_radius: 0.95
       footprint_padding: 0.0
       plugins: ["obstacle_layer", "inflation_layer"]
@@ -196,7 +196,7 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 1.0
-        inflation_radius: 0.5
+        inflation_radius: 0.2
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -241,7 +241,7 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: False
-      footprint: "[[0.95, 0.45], [0.95, -0.45], [-0.15, -0.45], [-0.15, 0.45]]"
+      footprint: "[[0.90, 0.40], [0.90, -0.40], [-0.15, -0.40], [-0.15, 0.40]]"
       # robot_radius: 0.95
       footprint_padding: 0.0
       resolution: 0.2
@@ -272,7 +272,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 1.0
-        inflation_radius: 0.5
+        inflation_radius: 0.2
       always_send_full_costmap: True
 
 map_server:
@@ -356,8 +356,8 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.8, 0.0, 0.6]
-    min_velocity: [-0.3, 0.0, -0.6]
+    max_velocity: [0.7, 0.0, 0.8]
+    min_velocity: [-0.3, 0.0, -0.8]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"
@@ -380,7 +380,7 @@ collision_monitor:
     polygons: ["FrontStop"]
     FrontStop:
       type: "polygon"
-      points: [0.95, 0.45, 0.95, -0.45, -0.15, -0.45, -0.15, 0.45]
+      points: [0.90, 0.40, 0.90, -0.40, -0.15, -0.40, -0.15, 0.40]
       action_type: "stop"
       min_points: 3
       max_points: 12

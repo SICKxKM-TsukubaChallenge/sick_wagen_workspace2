@@ -13,7 +13,7 @@ from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
 
-DEFAULT_YAML_PATH = os.path.join(os.path.dirname(__file__), '../data/test2.yaml')
+DEFAULT_YAML_PATH = os.path.join(os.path.dirname(__file__), '../data/final.yaml')
 
 @dataclass
 class Waypoint:
