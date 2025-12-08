@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import argparse
 import os
+import time
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 
 import rclpy
 from geometry_msgs.msg import Pose, PoseStamped
@@ -12,7 +13,7 @@ from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
 
-DEFAULT_YAML_PATH = os.path.join(os.path.dirname(__file__), '../data/2025-11-29_1152_waypoints.yaml')
+DEFAULT_YAML_PATH = os.path.join(os.path.dirname(__file__), '../data/final.yaml')
 
 @dataclass
 class Waypoint:
@@ -63,16 +64,20 @@ def load_waypoints_from_yaml(yaml_path: str) -> List[Waypoint]:
 
 
 class ButtonWaiter(Node):
-    """Joy listener that detects a rising edge after reset."""
+    """Joy listener that detects a rising edge after reset and a skip button."""
 
-    def __init__(self, topic: str, button_indices: List[int]) -> None:
+    def __init__(self, topic: str, button_indices: List[int], skip_button_index: int = 9) -> None:
         super().__init__('waypoint_button_waiter')
         self._topic = topic
         self._button_indices = button_indices
+        self._skip_button_index = skip_button_index
         self._waiting = False
         self._pressed_after_reset = False
         self._armed_for_rise = {idx: False for idx in self._button_indices}
         self._last_raw = {idx: 0 for idx in self._button_indices}
+        self._skip_requested = False
+        self._skip_last_raw = 0
+        self._skip_armed = False
         self.create_subscription(Joy, topic, self._joy_callback, 10)
 
     def _extract_button(self, msg: Joy, idx: int) -> int:
@@ -81,6 +86,15 @@ class ButtonWaiter(Node):
         return 0
 
     def _joy_callback(self, msg: Joy) -> None:
+        # Detect skip on rising edge of the configured button.
+        skip_raw = self._extract_button(msg, self._skip_button_index)
+        if skip_raw == 0:
+            self._skip_armed = True
+        if self._skip_armed and skip_raw == 1 and self._skip_last_raw == 0:
+            self._skip_requested = True
+            self._skip_armed = False
+        self._skip_last_raw = skip_raw
+
         if not self._waiting:
             for idx in self._button_indices:
                 self._last_raw[idx] = self._extract_button(msg, idx)
@@ -106,9 +120,20 @@ class ButtonWaiter(Node):
     def pressed_since_reset(self) -> bool:
         return self._pressed_after_reset
 
+    def consume_skip_request(self) -> bool:
+        """Return True once per rising edge of skip button."""
+        if self._skip_requested:
+            self._skip_requested = False
+            return True
+        return False
+
     def wait_for_press(self, timeout_sec: float = 0.1) -> None:
         while rclpy.ok() and not self._pressed_after_reset:
             rclpy.spin_once(self, timeout_sec=timeout_sec)
+            if self.consume_skip_request():
+                # Treat skip as an immediate continue while waiting so it does not bleed into next leg.
+                self._pressed_after_reset = True
+                self._waiting = False
 
     def stop_waiting(self) -> None:
         self._waiting = False
@@ -130,6 +155,24 @@ def main() -> None:
         default=[1, 2],
         help='Button indices that are accepted for continue (default: 1 2, same as waypoint saver)',
     )
+    parser.add_argument(
+        '--skip-button-index',
+        type=int,
+        default=9,
+        help='Button index used to skip the current waypoint (default: 9 / START)',
+    )
+    parser.add_argument(
+        '--close-distance',
+        type=float,
+        default=0.5,
+        help='Consider a goal reached if distance stays under this value (m) for close-hold time.',
+    )
+    parser.add_argument(
+        '--close-hold-time',
+        type=float,
+        default=2.0,
+        help='Seconds distance must stay under close-distance before forcing completion.',
+    )
     args = parser.parse_args()
 
     yaml_path = args.yaml_override or args.yaml_path or DEFAULT_YAML_PATH
@@ -139,7 +182,11 @@ def main() -> None:
 
     rclpy.init()
     navigator = BasicNavigator()
-    button_waiter = ButtonWaiter(topic=args.button_topic, button_indices=args.button_indices)
+    button_waiter = ButtonWaiter(
+        topic=args.button_topic,
+        button_indices=args.button_indices,
+        skip_button_index=args.skip_button_index,
+    )
 
     waypoints = load_waypoints_from_yaml(yaml_path)
     if not waypoints:
@@ -148,52 +195,82 @@ def main() -> None:
         rclpy.shutdown()
         return
 
-    initial_pose = PoseStamped()
-    initial_pose.header.frame_id = waypoints[0].frame_id
-    initial_pose.header.stamp = navigator.get_clock().now().to_msg()
-    initial_pose.pose = waypoints[0].pose
-    navigator.setInitialPose(initial_pose)
+    # 自己位置は既に推定済み前提なので初期ポーズは上書きしない。
     navigator.waitUntilNav2Active(localizer='lidar_localization')
 
     total = len(waypoints)
     for idx, waypoint in enumerate(waypoints):
-        goal = PoseStamped()
-        goal.header.frame_id = waypoint.frame_id
-        goal.header.stamp = navigator.get_clock().now().to_msg()
-        goal.pose = waypoint.pose
+        attempts = 0
+        while rclpy.ok():
+            goal = PoseStamped()
+            goal.header.frame_id = waypoint.frame_id
+            goal.header.stamp = navigator.get_clock().now().to_msg()
+            goal.pose = waypoint.pose
 
-        navigator.goToPose(goal)
-        mode = 'wait-button' if waypoint.action == 0 else 'auto'
-        print(f"Navigating to waypoint {idx + 1}/{total} ({mode})")
+            navigator.goToPose(goal)
+            mode = 'wait-button' if waypoint.action == 0 else 'auto'
+            print(f"Navigating to waypoint {idx + 1}/{total} ({mode}), attempt {attempts + 1}")
 
-        while not navigator.isTaskComplete():
-            rclpy.spin_once(button_waiter, timeout_sec=0.1)
+            skipped = False
+            forced_success = False
+            # close_enter_time: Optional[float] = None  # Disabled: close-distance based auto-completion
+            while not navigator.isTaskComplete():
+                rclpy.spin_once(button_waiter, timeout_sec=0.1)
+                if button_waiter.consume_skip_request():
+                    print(f"Skip requested at waypoint {idx + 1}/{total}. Canceling and moving to next.")
+                    navigator.cancelTask()
+                    skipped = True
+                    break
+                # feedback = navigator.getFeedback()
+                # if feedback and feedback.distance_remaining is not None:
+                #     distance_remaining = float(feedback.distance_remaining)
+                #     if distance_remaining < args.close_distance:
+                #         if close_enter_time is None:
+                #             close_enter_time = time.time()
+                #         elif time.time() - close_enter_time >= args.close_hold_time:
+                #             print(
+                #                 f"Distance under {args.close_distance} m for {args.close_hold_time:.1f}s."
+                #                 " Forcing completion to avoid circling."
+                #             )
+                #             navigator.cancelTask()
+                #             forced_success = True
+                #             break
+                #     else:
+                #         close_enter_time = None
 
-        result = navigator.getResult()
-        if result == TaskResult.SUCCEEDED:
-            print(f"Reached waypoint {idx + 1}/{total}")
-        elif result == TaskResult.CANCELED:
-            print('Navigation canceled. Stopping route.')
-            break
-        elif result == TaskResult.FAILED:
+            if skipped:
+                while not navigator.isTaskComplete():
+                    rclpy.spin_once(button_waiter, timeout_sec=0.1)
+                break
+
+            if forced_success:
+                while not navigator.isTaskComplete():
+                    rclpy.spin_once(button_waiter, timeout_sec=0.1)
+                result = TaskResult.SUCCEEDED
+            else:
+                result = navigator.getResult()
+
+            if result == TaskResult.SUCCEEDED:
+                print(f"Reached waypoint {idx + 1}/{total}")
+                if waypoint.action == 1:
+                    button_waiter.reset_after_arrival()
+                    print(
+                        f"Waiting for buttons {args.button_indices} on {args.button_topic} before continuing..."
+                    )
+                    button_waiter.wait_for_press()
+                    button_waiter.stop_waiting()
+                    print('Button press detected. Proceeding to next waypoint.')
+                break
+
+            attempts += 1
             try:
                 error_code, error_msg = navigator.getTaskError()
-                print(f"Navigation failed: {error_code}: {error_msg}")
+                print(f"Navigation result: {result}. Error detail: {error_code}: {error_msg}")
             except Exception:
-                print('Navigation failed.')
-            break
-        else:
-            print(f"Navigation returned unexpected status: {result}")
-            break
+                print(f"Navigation result: {result}. No additional error detail.")
 
-        if waypoint.action == 1:
-            button_waiter.reset_after_arrival()
-            print(
-                f"Waiting for buttons {args.button_indices} on {args.button_topic} before continuing..."
-            )
-            button_waiter.wait_for_press()
-            button_waiter.stop_waiting()
-            print('Button press detected. Proceeding to next waypoint.')
+            print(f"Retrying waypoint {idx + 1}/{total} (attempt {attempts + 1}) after failure/cancel.")
+            time.sleep(1.0)
 
     navigator.lifecycleShutdown()
     button_waiter.destroy_node()
